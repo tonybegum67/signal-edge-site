@@ -1,6 +1,8 @@
+import Link from "next/link";
+
 export function Wordmark({ href = "#top" }: { href?: string }) {
   return (
-    <a className="wm" href={href} aria-label="Signal-Edge AI home">
+    <Link className="wm" href={href} aria-label="Signal-Edge AI home">
       <span>Signal</span>
       <svg viewBox="0 0 24 16" aria-hidden="true">
         <path
@@ -14,6 +16,6 @@ export function Wordmark({ href = "#top" }: { href?: string }) {
       </svg>
       <span>Edge</span>
       <span className="ai">AI</span>
-    </a>
+    </Link>
   );
 }

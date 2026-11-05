@@ -1,34 +1,39 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { Wordmark } from "./Wordmark";
 
 const links = [
-  { href: "#how", label: "How we work" },
-  { href: "#industries", label: "Industries" },
-  { href: "#results", label: "Results" },
-  { href: "#steps", label: "Steps" },
-  { href: "#newsletter", label: "Newsletter" },
+  { href: "/#how", label: "How we work" },
+  { href: "/#industries", label: "Industries" },
+  { href: "/#results", label: "Results" },
+  { href: "/#steps", label: "Steps" },
+  { href: "/#newsletter", label: "Newsletter" },
 ];
 
-export function Nav() {
+export function Nav({ signedIn = false }: { signedIn?: boolean }) {
+  const member = signedIn
+    ? { href: "/steps", label: "My Steps" }
+    : { href: "/sign-in", label: "Sign in" };
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
 
   return (
     <nav className="nav" aria-label="Main">
       <div className="in">
-        <Wordmark />
+        <Wordmark href="/" />
         <div className="links">
           {links.map((l) => (
-            <a key={l.href} href={l.href}>
+            <Link key={l.href} href={l.href}>
               {l.label}
-            </a>
+            </Link>
           ))}
+          <Link href={member.href}>{member.label}</Link>
         </div>
-        <a className="btn p desk" href="#prep">
+        <Link className="btn p desk" href="/#prep">
           Book a session
-        </a>
+        </Link>
         <button
           className="menu-btn"
           type="button"
@@ -42,13 +47,16 @@ export function Nav() {
       <div className={`mobile-menu${open ? " open" : ""}`} id="mobileMenu">
         <div className="in">
           {links.map((l) => (
-            <a key={l.href} href={l.href} onClick={close}>
+            <Link key={l.href} href={l.href} onClick={close}>
               {l.label}
-            </a>
+            </Link>
           ))}
-          <a className="btn p" href="#prep" onClick={close}>
+          <Link href={member.href} onClick={close}>
+            {member.label}
+          </Link>
+          <Link className="btn p" href="/#prep" onClick={close}>
             Book a session
-          </a>
+          </Link>
         </div>
       </div>
     </nav>

@@ -25,6 +25,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Public build settings for the browser (safe to expose). Next.js reads this file at build time.
+      - name: Write public build settings
+        run: |
+          {
+            echo "NEXT_PUBLIC_SUPABASE_URL=${{ vars.NEXT_PUBLIC_SUPABASE_URL }}"
+            echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}"
+          } > .env.production
+
       - id: auth
         uses: google-github-actions/auth@v2
         with:
