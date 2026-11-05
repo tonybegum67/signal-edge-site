@@ -35,13 +35,15 @@ jobs:
       - uses: google-github-actions/setup-gcloud@v2
 
       # Builds the Dockerfile in Cloud Build and rolls out a new Cloud Run revision.
+      # --no-invoker-iam-check makes the site public. The signal-edge.ai organization blocks
+      # the usual "allUsers" grant (--allow-unauthenticated), so that route returns 403 Forbidden.
       - name: Deploy
         run: |
           gcloud run deploy "$SERVICE" \
             --project "${{ vars.GCP_PROJECT_ID }}" \
             --region "$REGION" \
             --source . \
-            --allow-unauthenticated \
+            --no-invoker-iam-check \
             --port 8080 \
             --min-instances 0 \
             --max-instances 3 \
