@@ -53,6 +53,15 @@ echo "GCP_DEPLOY_SA=$SA"
 4. In GitHub, open the repo's **Settings → Secrets and variables → Actions → Variables** and add the three printed values as repository variables (they are not secrets). Optional: `GCP_REGION` (default `us-west1`) and `CLOUD_RUN_SERVICE` (default `signal-edge-site`).
 5. Run the **Deploy to Cloud Run** workflow once from the Actions tab, or merge any pull request. The last step prints the site's `run.app` address.
 
+## Supabase sign-in
+
+Members sign in with a link emailed by Supabase (no passwords). The deploy reads two repository variables and bakes them into the build:
+
+- `NEXT_PUBLIC_SUPABASE_URL`: the project URL, like `https://xxxx.supabase.co`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: the publishable (anon) key
+
+Never add the secret or service_role key here. In Supabase, **Authentication → URL Configuration** must list the site's address with `/**` as a redirect URL, or the email link will be refused.
+
 ## If the site shows "Error: Forbidden"
 
 New Google Workspace organizations block granting access to `allUsers`, which is how Cloud Run usually makes a site public. The deploy therefore turns off Cloud Run's invoker check instead (`--no-invoker-iam-check`), which makes this one service public without changing the organization's rules. To apply it by hand without a deploy, run in Cloud Shell:

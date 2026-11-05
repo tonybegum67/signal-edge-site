@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { HowWeWork } from "./components/HowWeWork";
 import { LessonDemo } from "./components/LessonDemo";
 import { Nav } from "./components/Nav";
@@ -283,7 +284,7 @@ export default function Home() {
               <ul>
                 <li><a href="#steps">Signal-Edge Steps</a></li>
                 <li><a href="#newsletter">{site.newsletterName}</a></li>
-                <li><a href="#steps">Member sign-in</a></li>
+                <li><Link href="/sign-in">Member sign-in</Link></li>
               </ul>
             </div>
             <div>
