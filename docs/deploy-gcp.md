@@ -7,11 +7,11 @@ Until the three repository variables below are set, the deploy workflow skips it
 ## One-time setup (about 10 minutes)
 
 1. Sign in to the Google Cloud console with the signal-edge.ai Google account.
-2. Create a project (for example `signal-edge-site`) and link a billing account.
-3. Open **Cloud Shell** (the `>_` icon, top right) and paste the block below. Change `PROJECT_ID` first if you named the project something else.
+2. Create a project and link a billing account. (Done Nov 4: project ID `signal-edge-ai`.)
+3. Open **Cloud Shell** (the `>_` icon, top right) and paste the block below. It is already set to the `signal-edge-ai` project.
 
 ```bash
-PROJECT_ID=signal-edge-site
+PROJECT_ID=signal-edge-ai
 GH_REPO=tonybegum67/signal-edge-site
 
 gcloud config set project "$PROJECT_ID"
