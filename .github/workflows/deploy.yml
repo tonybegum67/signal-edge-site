@@ -1,0 +1,52 @@
+name: Deploy to Cloud Run
+
+# Runs after a pull request is merged to main. It does nothing until the
+# Google Cloud repository variables in docs/deploy-gcp.md are set.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # lets GitHub prove who it is to Google, so no key file is stored
+
+concurrency:
+  group: deploy-cloud-run
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ vars.GCP_PROJECT_ID != '' }}
+    runs-on: ubuntu-latest
+    env:
+      REGION: ${{ vars.GCP_REGION || 'us-west1' }}
+      SERVICE: ${{ vars.CLOUD_RUN_SERVICE || 'signal-edge-site' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: ${{ vars.GCP_PROJECT_ID }}
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SA }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      # Builds the Dockerfile in Cloud Build and rolls out a new Cloud Run revision.
+      - name: Deploy
+        run: |
+          gcloud run deploy "$SERVICE" \
+            --project "${{ vars.GCP_PROJECT_ID }}" \
+            --region "$REGION" \
+            --source . \
+            --allow-unauthenticated \
+            --port 8080 \
+            --min-instances 0 \
+            --max-instances 3 \
+            --quiet
+
+      - name: Show the address
+        run: |
+          gcloud run services describe "$SERVICE" --project "${{ vars.GCP_PROJECT_ID }}" --region "$REGION" --format='value(status.url)'
