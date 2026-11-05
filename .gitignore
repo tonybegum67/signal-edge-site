@@ -1,0 +1,16 @@
+# dependencies
+node_modules/
+# next.js
+.next/
+out/
+# env files: never commit keys
+.env
+.env.*
+!.env.example
+# misc
+.DS_Store
+*.log
+npm-debug.log*
+coverage/
+*.tsbuildinfo
+next-env.d.ts
