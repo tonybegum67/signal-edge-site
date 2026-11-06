@@ -12,6 +12,7 @@ Each file is safe to run twice.
 | File | What it adds |
 |---|---|
 | `20261106_forms.sql` | `prep_responses` (session prep answers) and `newsletter_subscribers` (Clear Signal list) |
+| `20261106_account.sql` | Lets a signed-in member see and switch their own Clear Signal setting on My account |
 
 ## Where to see the answers
 

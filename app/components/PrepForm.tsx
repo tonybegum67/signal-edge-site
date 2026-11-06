@@ -104,7 +104,7 @@ export function PrepForm() {
         </div>
       </div>
       <label className="optin">
-        <input type="checkbox" name="optin" defaultChecked />
+        <input type="checkbox" name="optin" />
         <span>
           Add me to {site.newsletterName}
           <small>
