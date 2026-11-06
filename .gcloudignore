@@ -1,0 +1,13 @@
+# Files gcloud leaves out when it uploads the source for Cloud Run builds.
+# Without this file gcloud falls back to .gitignore, which drops
+# .env.production, so the public Supabase settings never reach the build.
+.gcloudignore
+.git
+.github
+node_modules
+.next
+docs
+*.md
+.env
+.env.*
+!.env.production
