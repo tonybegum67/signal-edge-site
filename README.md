@@ -19,6 +19,8 @@ npm run lint && npm run typecheck && npm run build
 1. Every change is a branch and a pull request into `main`.
 2. CI runs lint, type checks and a production build on each pull request.
 3. Tony reviews and merges. Merging to `main` deploys to Cloud Run (see [docs/deploy-gcp.md](docs/deploy-gcp.md)).
+
+Sign-in emails are branded templates in `supabase/templates/`, built by `npm run emails`. See [docs/supabase-emails.md](docs/supabase-emails.md) for pasting them into Supabase and sending from a signal-edge.ai address.
 4. No keys or passwords in the repo. Runtime settings live in Cloud Run and GitHub repository variables.
 
 ## Where things live
