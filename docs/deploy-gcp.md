@@ -74,3 +74,49 @@ gcloud run services update signal-edge-site --region=us-west1 --project=signal-e
 
 - **Custom domain:** point `signal-edge.ai` at the service once the site is ready for launch, then build with `SITE_ENV=production` to remove the preview ribbon and let search engines in.
 - **Cost:** at pilot traffic the site should stay inside Cloud Run's free monthly allowance; a budget alert in Billing is a good safety net.
+
+## Custom domain: signal-edge.ai
+
+The site uses Cloud Run domain mapping, which is free. Google lists it as a preview and says pages can load a little slower than with a load balancer. Moving to a load balancer later only changes the GoDaddy records. www.signal-edge.ai sends visitors on to signal-edge.ai (see `next.config.ts`).
+
+### 1. Prove you own the domain (once)
+
+In Cloud Shell, signed in as tony@signal-edge.ai:
+
+```bash
+gcloud config set project signal-edge-ai
+gcloud domains list-user-verified
+```
+
+If `signal-edge.ai` is listed, skip to step 2. Otherwise run `gcloud domains verify signal-edge.ai`, open the link it prints, and follow Search Console's steps. It gives you a TXT record to add in GoDaddy. Add it alongside the TXT records already there; don't replace them.
+
+### 2. Map both addresses to the site
+
+```bash
+gcloud beta run domain-mappings create --service signal-edge-site --domain signal-edge.ai --region us-west1
+gcloud beta run domain-mappings create --service signal-edge-site --domain www.signal-edge.ai --region us-west1
+gcloud beta run domain-mappings describe --domain signal-edge.ai --region us-west1 --format='yaml(status.resourceRecords)'
+gcloud beta run domain-mappings describe --domain www.signal-edge.ai --region us-west1 --format='yaml(status.resourceRecords)'
+```
+
+The last two commands list the DNS records to add: A and AAAA records for `signal-edge.ai`, and a CNAME for `www`.
+
+### 3. Add the records in GoDaddy
+
+In GoDaddy, open the domain's **DNS** page.
+
+- Delete the existing `@` A record (often "Parked") and the existing `www` CNAME.
+- Add every A and AAAA record from step 2 with name `@`, and the CNAME with name `www`.
+- If **Forwarding** is turned on for the domain, turn it off.
+- Leave the MX, TXT and any Google Workspace records alone, so email keeps working.
+
+Google then issues the HTTPS certificate on its own. It usually takes about 15 minutes and can take up to 24 hours. `gcloud beta run domain-mappings describe --domain signal-edge.ai --region us-west1` shows `CertificateProvisioned: True` when it's ready.
+
+### 4. Tell Supabase about the new address
+
+In Supabase, open **Authentication → URL Configuration**:
+
+- Set **Site URL** to `https://signal-edge.ai`.
+- Under **Redirect URLs**, add `https://signal-edge.ai/**`. Keep the run.app address too until you stop using it.
+
+Sign-in links then come back to whichever address the member signed in on.
