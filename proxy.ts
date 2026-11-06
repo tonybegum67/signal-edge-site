@@ -28,7 +28,9 @@ export async function proxy(request: NextRequest) {
 
   const path = request.nextUrl.pathname;
   if (!user && MEMBERS_ONLY.some((p) => path === p || path.startsWith(`${p}/`))) {
-    const url = new URL(`/sign-in?next=${encodeURIComponent(path)}`, publicOrigin(request.headers));
+    // Keeps the query too, so a shared link like /account?code=ABC-123 still works after sign-in.
+    const back = path + request.nextUrl.search;
+    const url = new URL(`/sign-in?next=${encodeURIComponent(back)}`, publicOrigin(request.headers));
     return NextResponse.redirect(url);
   }
   return response;

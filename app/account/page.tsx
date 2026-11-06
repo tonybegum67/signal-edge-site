@@ -4,7 +4,9 @@ import { redirect } from "next/navigation";
 import { Nav } from "../components/Nav";
 import { createClient } from "@/lib/supabase/server";
 import { site } from "@/lib/site";
+import { formatDay, getPlan } from "@/lib/plan";
 import { setClearSignal } from "./actions";
+import { CodeForm } from "./CodeForm";
 
 export const metadata: Metadata = { title: "My account" };
 
@@ -13,10 +15,15 @@ export const dynamic = "force-dynamic";
 
 type Subscription = "on" | "off" | "unknown";
 
-export default async function AccountPage() {
+export default async function AccountPage({ searchParams }: { searchParams: Promise<{ code?: string }> }) {
+  const { code: codeParam } = await searchParams;
+  const initialCode = typeof codeParam === "string" ? codeParam.slice(0, 40) : "";
   const supabase = await createClient();
   const user = supabase ? (await supabase.auth.getUser()).data.user : null;
-  if (!supabase || !user) redirect("/sign-in?next=/account");
+  if (!supabase || !user) {
+    const back = initialCode ? `/account?code=${encodeURIComponent(initialCode)}` : "/account";
+    redirect(`/sign-in?next=${encodeURIComponent(back)}`);
+  }
 
   let subscription: Subscription = "off";
   const { data: row, error } = await supabase
@@ -26,11 +33,9 @@ export default async function AccountPage() {
   if (error) subscription = "unknown";
   else if (row && !row.unsubscribed_at) subscription = "on";
 
-  const memberSince = new Date(user.created_at).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+  const memberSince = formatDay(user.created_at);
+  const plan = await getPlan(supabase);
+  const isPro = plan.plan === "pro";
 
   return (
     <>
@@ -83,7 +88,11 @@ export default async function AccountPage() {
               <h3>Your plan</h3>
               <dl>
                 <dt>Plan</dt>
-                <dd>Free: Step 1 and {site.newsletterName}</dd>
+                <dd>
+                  {isPro
+                    ? `Pro${plan.endsAt ? ` until ${formatDay(plan.endsAt)}` : ""}: every Step and ${site.newsletterName}`
+                    : `Free: Step 1 and ${site.newsletterName}`}
+                </dd>
                 <dt>Progress</dt>
                 <dd>Lessons are on their way. Your progress will show here.</dd>
               </dl>
@@ -94,10 +103,19 @@ export default async function AccountPage() {
 
             <section className="panel">
               <h3>Codes and billing</h3>
-              <p className="sub">
-                Pro plans and access codes open soon. When they do, you&apos;ll add a code and manage billing right
-                here.
-              </p>
+              {plan.failed ? (
+                <p className="sub">We couldn&apos;t load your plan just now. Try again in a minute.</p>
+              ) : (
+                <>
+                  <p className="sub">
+                    {isPro
+                      ? "Got another code? Add it here and its time adds on to your plan."
+                      : "Got an access code? Add it here to unlock Pro."}
+                  </p>
+                  <CodeForm initialCode={initialCode} />
+                </>
+              )}
+              <p className="sub">Paying for Pro by card opens soon. You&apos;ll manage billing right here.</p>
             </section>
           </div>
         </div>
