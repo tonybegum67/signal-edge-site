@@ -21,6 +21,8 @@ npm run lint && npm run typecheck && npm run build
 3. Tony reviews and merges. Merging to `main` deploys to Cloud Run (see [docs/deploy-gcp.md](docs/deploy-gcp.md)).
 4. No keys or passwords in the repo. Runtime settings live in Cloud Run and GitHub repository variables.
 
+Sign-in emails are branded templates in `supabase/templates/`, built by `npm run emails`. See [docs/supabase-emails.md](docs/supabase-emails.md) for pasting them into Supabase and sending from a signal-edge.ai address.
+
 ## Where things live
 
 - `app/page.tsx` · the home page
