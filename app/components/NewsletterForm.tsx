@@ -1,42 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { site } from "@/lib/site";
+import { subscribe, type FormState } from "../actions/forms";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function NewsletterForm() {
-  const [error, setError] = useState("");
-  const [done, setDone] = useState(false);
+  const [state, action, pending] = useActionState(subscribe, { status: "idle" } as FormState);
+  const [clientError, setClientError] = useState("");
+  const done = state.status === "done";
 
+  // Check the address before sending, so a typo doesn't clear the box.
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
     const email = String(new FormData(e.currentTarget).get("email") ?? "").trim();
-    if (!EMAIL.test(email)) {
-      setError("Add an email address like name@company.com.");
-      return;
-    }
-    setError("");
-    setDone(true);
+    const problem = EMAIL.test(email) ? "" : "Add an email address like name@company.com.";
+    setClientError(problem);
+    if (problem) e.preventDefault();
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate>
-      <div className="f">
-        <label htmlFor="nEmail">Email</label>
-        <div className="news-row">
-          <input type="email" id="nEmail" name="email" placeholder="you@company.com" autoComplete="email" />
-          <button className="btn p" type="submit">
-            Get {site.newsletterName}
-          </button>
+    <form action={action} onSubmit={onSubmit} noValidate>
+      {!done && (
+        <div className="f">
+          <label htmlFor="nEmail">Email</label>
+          <div className="news-row">
+            <input type="email" id="nEmail" name="email" placeholder="you@company.com" autoComplete="email" />
+            <button className="btn p" type="submit" disabled={pending}>
+              {pending ? "Adding..." : `Get ${site.newsletterName}`}
+            </button>
+          </div>
         </div>
-      </div>
+      )}
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hp" aria-hidden="true" />
       <p className="err" role="alert">
-        {error}
+        {clientError || (state.status === "error" ? state.message : "")}
       </p>
       <div className={`done${done ? " show" : ""}`} role="status">
-        <strong>You&apos;re on the list</strong>
-        <span>{site.formsLive ? "Watch your inbox for the next issue." : "This preview doesn't save sign-ups yet."}</span>
+        <strong>{state.already ? "Already on the list" : "You're on the list"}</strong>
+        <span>
+          {state.already
+            ? "Good news, you're already getting it. Watch your inbox for the next issue."
+            : "Watch your inbox for the next issue."}
+        </span>
       </div>
     </form>
   );

@@ -302,8 +302,8 @@ export default function Home() {
           <div className="foot-bot">
             <span>© {new Date().getFullYear()} Signal-Edge AI</span>
             <span>
-              <a href="#top">Privacy</a>
-              <a href="#top">Terms</a>
+              <Link href="/privacy">Privacy</Link>
+              <Link href="/terms">Terms</Link>
             </span>
           </div>
         </div>
