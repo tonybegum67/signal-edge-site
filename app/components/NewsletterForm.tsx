@@ -27,7 +27,7 @@ export function NewsletterForm() {
         <div className="news-row">
           <input type="email" id="nEmail" name="email" placeholder="you@company.com" autoComplete="email" />
           <button className="btn p" type="submit">
-            Subscribe
+            Get {site.newsletterName}
           </button>
         </div>
       </div>
