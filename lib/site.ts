@@ -5,8 +5,9 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://signal-edge.ai",
   description:
     "An AI consulting company that delivers real AI results with your data.",
-  // Working name; Tony hasn't settled it yet.
-  newsletterName: "The Weekly Signal",
+  // Tony chose the name Nov 6, 2026.
+  newsletterName: "Clear Signal",
+  newsletterTagline: "AI made clear, twice a month.",
   // Tony, Nov 4: the newsletter goes out twice a month.
   newsletterCadence: "Two short emails a month",
   // Forms show a preview message until Supabase is connected.

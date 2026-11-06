@@ -239,7 +239,7 @@ export default function Home() {
               <div className="panel news rv" id="newsletter">
                 <div>
                   <p className="eb">{site.newsletterName}</p>
-                  <h3 style={{ marginTop: 12 }}>Short, useful, only what works.</h3>
+                  <h3 style={{ marginTop: 12 }}>{site.newsletterTagline}</h3>
                   <p className="sub" style={{ marginTop: 10 }}>
                     {site.newsletterCadence}: prompts you can use the same day, tool changes that matter and one real
                     result from the field.
