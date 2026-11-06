@@ -23,6 +23,8 @@ npm run lint && npm run typecheck && npm run build
 
 Sign-in emails are branded templates in `supabase/templates/`, built by `npm run emails`. See [docs/supabase-emails.md](docs/supabase-emails.md) for pasting them into Supabase and sending from a signal-edge.ai address.
 
+The forms save into Supabase tables created by the files in `supabase/migrations/`. See [docs/supabase-tables.md](docs/supabase-tables.md).
+
 ## Where things live
 
 - `app/page.tsx` · the home page

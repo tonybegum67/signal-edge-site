@@ -10,8 +10,6 @@ export const site = {
   newsletterTagline: "AI made clear, twice a month.",
   // Tony, Nov 4: the newsletter goes out twice a month.
   newsletterCadence: "Two short emails a month",
-  // Forms show a preview message until Supabase is connected.
-  formsLive: false,
   // Shows the preview ribbon everywhere except the production site.
   isPreview: process.env.NEXT_PUBLIC_SITE_ENV !== "production",
 } as const;

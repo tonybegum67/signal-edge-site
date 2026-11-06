@@ -238,3 +238,16 @@ footer{border-top:1px solid var(--line);background:#060D18;color:#8794A6;font-si
 
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .nf{min-height:70vh;display:grid;place-content:center;gap:20px;text-align:left}
+
+/* Honeypot field for form bots. People never see it. */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+
+/* Privacy note and terms */
+.legal{max-width:720px}
+.legal .updated{margin-top:12px;color:#7E8B9D;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.legal .lede{margin-top:28px}
+.legal h2{margin-top:36px;font-family:var(--display);font-stretch:118%;font-weight:800;font-size:20px;text-transform:uppercase;color:#F3F5F8}
+.legal p,.legal li{margin-top:12px;color:var(--ti);font-size:16px;line-height:1.6;max-width:65ch}
+.legal ul{padding-left:20px}
+.legal a{color:var(--amber)}
+.legal .back{margin-top:44px}

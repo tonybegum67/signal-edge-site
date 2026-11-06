@@ -1,7 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import Link from "next/link";
+import { useActionState, useState } from "react";
 import { site } from "@/lib/site";
+import { sendPrep, type FormState } from "../actions/forms";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -18,37 +20,32 @@ const laptopOptions = [
 ];
 
 export function PrepForm() {
-  const [error, setError] = useState("");
-  const [doneText, setDoneText] = useState("");
-  const nameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
+  const [state, action, pending] = useActionState(sendPrep, { status: "idle" } as FormState);
+  const [clientError, setClientError] = useState("");
+  const done = state.status === "done";
 
+  // Check the basics before sending, so a typo doesn't clear the form.
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
     const data = new FormData(e.currentTarget);
-    const name = String(data.get("name") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim();
-    if (!name) {
-      setError("Add your name so we know who is coming.");
-      nameRef.current?.focus();
-      return;
+    const form = e.currentTarget;
+    let problem = "";
+    let field: HTMLElement | null = null;
+    if (!String(data.get("name") ?? "").trim()) {
+      problem = "Add your name so we know who is coming.";
+      field = form.querySelector("#pName");
+    } else if (!EMAIL.test(String(data.get("email") ?? "").trim())) {
+      problem = "Add an email address like name@company.com.";
+      field = form.querySelector("#pEmail");
     }
-    if (!EMAIL.test(email)) {
-      setError("Add an email address like name@company.com.");
-      emailRef.current?.focus();
-      return;
+    setClientError(problem);
+    if (problem) {
+      e.preventDefault();
+      field?.focus();
     }
-    setError("");
-    const optIn = data.get("optin") === "on";
-    // Supabase hookup comes in the forms update; until then nothing is stored.
-    setDoneText(
-      `Thanks, ${name.split(" ")[0]}. You're set for the session${optIn ? ` and on ${site.newsletterName}` : ""}.` +
-        (site.formsLive ? "" : " This preview doesn't save answers yet."),
-    );
   }
 
   return (
-    <form className="panel rv" onSubmit={onSubmit} noValidate>
+    <form className="panel rv" action={action} onSubmit={onSubmit} noValidate>
       <div>
         <h3>Session prep</h3>
         <p className="sub" style={{ marginTop: 8 }}>
@@ -58,11 +55,11 @@ export function PrepForm() {
       <div className="fields">
         <div className="f">
           <label htmlFor="pName">Full name</label>
-          <input ref={nameRef} type="text" id="pName" name="name" placeholder="Jordan Avery" autoComplete="name" />
+          <input type="text" id="pName" name="name" placeholder="Jordan Avery" autoComplete="name" />
         </div>
         <div className="f">
           <label htmlFor="pEmail">Email</label>
-          <input ref={emailRef} type="email" id="pEmail" name="email" placeholder="jordan@yourcompany.com" autoComplete="email" />
+          <input type="email" id="pEmail" name="email" placeholder="jordan@yourcompany.com" autoComplete="email" />
         </div>
         <div className="f">
           <label htmlFor="pCo">Company</label>
@@ -110,21 +107,27 @@ export function PrepForm() {
         <input type="checkbox" name="optin" defaultChecked />
         <span>
           Add me to {site.newsletterName}
-          <small>{site.newsletterCadence} with prompts and AI updates that matter for your work. Unsubscribe anytime.</small>
+          <small>
+            {site.newsletterCadence} with prompts and AI updates that matter for your work. Unsubscribe anytime. See
+            our <Link href="/privacy">privacy note</Link>.
+          </small>
         </span>
       </label>
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hp" aria-hidden="true" />
       <p className="err" role="alert">
-        {error}
+        {clientError || (state.status === "error" ? state.message : "")}
       </p>
-      <div className={`done${doneText ? " show" : ""}`} role="status">
+      <div className={`done${done ? " show" : ""}`} role="status">
         <strong>Got it</strong>
-        <span>{doneText}</span>
+        <span>{state.message ?? "Thanks. You're set for the session."}</span>
       </div>
-      <div>
-        <button className="btn p" type="submit">
-          Send my answers <span className="arr">→</span>
-        </button>
-      </div>
+      {!done && (
+        <div>
+          <button className="btn p" type="submit" disabled={pending}>
+            {pending ? "Sending..." : "Send my answers"} <span className="arr">→</span>
+          </button>
+        </div>
+      )}
     </form>
   );
 }
