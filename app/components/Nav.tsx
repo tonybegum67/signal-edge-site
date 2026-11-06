@@ -14,8 +14,11 @@ const links = [
 
 export function Nav({ signedIn = false }: { signedIn?: boolean }) {
   const member = signedIn
-    ? { href: "/steps", label: "My Steps" }
-    : { href: "/sign-in", label: "Sign in" };
+    ? [
+        { href: "/steps", label: "My Steps" },
+        { href: "/account", label: "My account" },
+      ]
+    : [{ href: "/sign-in", label: "Sign in" }];
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
 
@@ -29,7 +32,11 @@ export function Nav({ signedIn = false }: { signedIn?: boolean }) {
               {l.label}
             </Link>
           ))}
-          <Link href={member.href}>{member.label}</Link>
+          {member.map((m) => (
+            <Link key={m.href} href={m.href}>
+              {m.label}
+            </Link>
+          ))}
         </div>
         <Link className="btn p desk" href="/#prep">
           Book a session
@@ -51,9 +58,11 @@ export function Nav({ signedIn = false }: { signedIn?: boolean }) {
               {l.label}
             </Link>
           ))}
-          <Link href={member.href} onClick={close}>
-            {member.label}
-          </Link>
+          {member.map((m) => (
+            <Link key={m.href} href={m.href} onClick={close}>
+              {m.label}
+            </Link>
+          ))}
           <Link className="btn p" href="/#prep" onClick={close}>
             Book a session
           </Link>

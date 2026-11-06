@@ -251,3 +251,10 @@ footer{border-top:1px solid var(--line);background:#060D18;color:#8794A6;font-si
 .legal ul{padding-left:20px}
 .legal a{color:var(--amber)}
 .legal .back{margin-top:44px}
+
+/* My account */
+.acct-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px;margin-top:32px}
+.account dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:0}
+.account dt{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7E8B9D;padding-top:3px}
+.account dd{margin:0;color:var(--ti);overflow-wrap:anywhere}
+.account .panel .btn{justify-self:start}

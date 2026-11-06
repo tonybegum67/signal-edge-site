@@ -4,7 +4,7 @@ import { publicOrigin } from "@/lib/origin";
 import { supabaseConfigured, supabaseKey, supabaseUrl } from "@/lib/supabase/config";
 
 // Pages that need a signed-in member.
-const MEMBERS_ONLY = ["/steps"];
+const MEMBERS_ONLY = ["/steps", "/account"];
 
 export async function proxy(request: NextRequest) {
   const response = NextResponse.next({ request });
@@ -36,5 +36,5 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   // Only the members area needs a session check, so public pages stay fast.
-  matcher: ["/steps", "/steps/:path*"],
+  matcher: ["/steps", "/steps/:path*", "/account", "/account/:path*"],
 };
