@@ -13,6 +13,14 @@ const aiOptions = [
   { value: "free", label: "A free plan" },
   { value: "none", label: "None yet" },
 ];
+const filesOptions = [
+  { value: "google", label: "Google Drive" },
+  { value: "dropbox", label: "Dropbox" },
+  { value: "onedrive", label: "OneDrive" },
+  { value: "computer", label: "On my computer" },
+  { value: "mix", label: "A mix, or not sure" },
+];
+const comfortOptions = ["1", "2", "3", "4", "5"];
 const laptopOptions = [
   { value: "mac", label: "Mac" },
   { value: "win", label: "Windows" },
@@ -49,7 +57,7 @@ export function PrepForm() {
       <div>
         <h3>Session prep</h3>
         <p className="sub" style={{ marginTop: 8 }}>
-          Two minutes. We use this to tailor the session and nothing else.
+          Three minutes. We use this to tailor the session and nothing else.
         </p>
       </div>
       <div className="fields">
@@ -98,9 +106,39 @@ export function PrepForm() {
             ))}
           </div>
         </fieldset>
+        <fieldset className="f full">
+          <legend>Where do most of your work files live?</legend>
+          <div className="seg">
+            {filesOptions.map((o) => (
+              <label key={o.value}>
+                <input type="radio" name="files" value={o.value} />
+                <span>{o.label}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
         <div className="f full">
-          <label htmlFor="pPain">Biggest time sink right now</label>
+          <label htmlFor="pCrm">Which CRM do you use?</label>
+          <input type="text" id="pCrm" name="crm" placeholder="Follow Up Boss, kvCORE, a spreadsheet, none..." />
+        </div>
+        <fieldset className="f full">
+          <legend>How comfortable are you with AI today? 1 is brand new, 5 is daily use</legend>
+          <div className="seg">
+            {comfortOptions.map((v) => (
+              <label key={v}>
+                <input type="radio" name="comfort" value={v} />
+                <span>{v}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+        <div className="f full">
+          <label htmlFor="pPain">Biggest time sinks right now</label>
           <input type="text" id="pPain" name="timeSink" placeholder="Follow-ups, listing copy, paperwork..." />
+        </div>
+        <div className="f full">
+          <label htmlFor="pRemember">Anything we should know before the session? (optional)</label>
+          <input type="text" id="pRemember" name="remember" placeholder="One thing you'd like us to remember" />
         </div>
       </div>
       <label className="optin">
