@@ -14,6 +14,7 @@ Each file is safe to run twice.
 | `20261106_forms.sql` | `prep_responses` (session prep answers) and `newsletter_subscribers` (Clear Signal list) |
 | `20261106_account.sql` | Lets a signed-in member see and switch their own Clear Signal setting on My account |
 | `20261106_codes.sql` | Access codes and Pro memberships, plus the CASEY-LESHER code (90 days of Pro) |
+| `20261107_prep_thanks.sql` | Remembers which addresses got the prep thank-you email, so each gets it once |
 
 ## Where to see the answers
 

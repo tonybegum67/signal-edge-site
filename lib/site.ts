@@ -10,6 +10,8 @@ export const site = {
   newsletterTagline: "AI made clear, twice a month.",
   // Tony, Nov 4: the newsletter goes out twice a month.
   newsletterCadence: "Two short emails a month",
+  // The next session people fill the prep form for. Shown in the thank-you email; set to null between sessions.
+  prepSession: { when: "Monday, November 16, 10 AM to 12 PM Pacific" } as { when: string } | null,
   // Shows the preview ribbon everywhere except the production site.
   isPreview: process.env.NEXT_PUBLIC_SITE_ENV !== "production",
 } as const;
