@@ -15,6 +15,7 @@ Each file is safe to run twice.
 | `20261106_account.sql` | Lets a signed-in member see and switch their own Clear Signal setting on My account |
 | `20261106_codes.sql` | Access codes and Pro memberships, plus the CASEY-LESHER code (90 days of Pro) |
 | `20261106_prep_more.sql` | Four more prep questions: where files live, CRM, AI comfort (1 to 5), anything to remember. Run before merging the form change. |
+| `20261107_prep_thanks.sql` | Remembers which addresses got the prep thank-you email, so each gets it once |
 
 ## Where to see the answers
 

@@ -45,8 +45,16 @@ jobs:
       # Builds the Dockerfile in Cloud Build and rolls out a new Cloud Run revision.
       # --no-invoker-iam-check makes the site public. The signal-edge.ai organization blocks
       # the usual "allUsers" grant (--allow-unauthenticated), so that route returns 403 Forbidden.
+      # Email sending switches on only once the SMTP_USER variable is set and the smtp-password
+      # secret exists in Secret Manager (see docs/site-emails.md). The password never touches GitHub.
       - name: Deploy
+        env:
+          SMTP_USER: ${{ vars.SMTP_USER }}
         run: |
+          MAIL_ARGS=()
+          if [ -n "$SMTP_USER" ]; then
+            MAIL_ARGS=(--update-env-vars "SMTP_USER=$SMTP_USER" --update-secrets "SMTP_PASSWORD=smtp-password:latest")
+          fi
           gcloud run deploy "$SERVICE" \
             --project "${{ vars.GCP_PROJECT_ID }}" \
             --region "$REGION" \
@@ -55,6 +63,7 @@ jobs:
             --port 8080 \
             --min-instances 0 \
             --max-instances 3 \
+            "${MAIL_ARGS[@]}" \
             --quiet
 
       - name: Show the address

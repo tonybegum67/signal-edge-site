@@ -1,6 +1,8 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { prepThanksEmail } from "@/lib/emails/prep-thanks";
+import { mailConfigured, sendMail } from "@/lib/mail";
 import { site } from "@/lib/site";
 
 export type FormState = { status: "idle" | "done" | "error"; message?: string; already?: boolean };
@@ -32,6 +34,21 @@ async function addSubscriber(supabase: Db, email: string, source: string): Promi
   if (error.code === "23505") return "already";
   console.error("newsletter insert failed", error.code, error.message);
   return "failed";
+}
+
+// Sends the thank-you email once per address. A mail problem never fails the form.
+async function sendPrepThanks(supabase: Db, email: string, firstName: string) {
+  if (!mailConfigured) return;
+  const { error } = await supabase.from("prep_thanks_sent").insert({ email });
+  if (error) {
+    if (error.code !== "23505") console.error("thank-you record failed", error.code, error.message);
+    return; // 23505: this address already got it
+  }
+  try {
+    await sendMail({ to: email, ...prepThanksEmail(firstName) });
+  } catch (e) {
+    console.error("thank-you email failed", e instanceof Error ? e.message : e);
+  }
 }
 
 export async function subscribe(_prev: FormState, formData: FormData): Promise<FormState> {
@@ -89,5 +106,7 @@ export async function sendPrep(_prev: FormState, formData: FormData): Promise<Fo
   if (optIn) await addSubscriber(supabase, email, "prep_form");
 
   const first = name.split(" ")[0];
+  await sendPrepThanks(supabase, email, first);
+
   return { status: "done", message: `Thanks, ${first}. You're set for the session${optIn ? ` and on ${site.newsletterName}` : ""}.` };
 }
