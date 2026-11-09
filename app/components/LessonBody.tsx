@@ -51,6 +51,15 @@ function BlockView({ block }: { block: Block }) {
       );
     case "tip":
       return <p className="tip">{block.text}</p>;
+    case "download":
+      return (
+        <div className="dl">
+          <a className="btn p" href={block.href} download>
+            {block.label} <span className="arr">↓</span>
+          </a>
+          <span>{block.note}</span>
+        </div>
+      );
   }
 }
 

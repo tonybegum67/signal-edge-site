@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Nav } from "../../components/Nav";
-import { CopyPrompt } from "../../components/CopyPrompt";
+import { PromptPack } from "../../components/PromptPack";
 import { createClient } from "@/lib/supabase/server";
-import { prompts, rulebookName } from "@/lib/lessons";
+import { rulebookName } from "@/lib/lessons";
 import { caseySpace, hasSpace } from "@/lib/space";
 
 export const metadata: Metadata = { title: "Casey Lesher Real Estate", robots: { index: false, follow: false } };
@@ -28,43 +28,6 @@ const bring = [
   "Its desktop app installed and signed in (not the website)",
   "Your email open, for the sign-in link",
   "5 to 10 work files you're happy to share with your AI",
-];
-
-// The prompt pack. The same words work in Claude and ChatGPT.
-const pack = [
-  {
-    step: "Step 1 · Set up the house",
-    items: [{ label: "First look at your folder", text: prompts.firstLook }],
-  },
-  {
-    step: "Step 2 · Teach it who you are",
-    items: [
-      { label: "The interview", text: prompts.interview },
-      { label: "Fix a line in About me", text: prompts.fixAboutMe },
-      { label: "Make the rulebook", text: prompts.rulebook },
-      { label: "Add a rule", text: prompts.addRule },
-    ],
-  },
-  {
-    step: "Step 3 · Feed it your business",
-    items: [
-      { label: "Check a file before it goes in", text: prompts.cleanFile },
-      { label: "File your Inbox", text: prompts.fileInbox },
-    ],
-  },
-  {
-    step: "Step 4 · Put it to work",
-    items: [
-      { label: "Follow-up (everyone does this one)", text: prompts.followUp },
-      { label: "Listing copy", text: prompts.listingCopy },
-      { label: "CMA talking points", text: prompts.cmaPrep },
-      { label: "Morning brief", text: prompts.morningBrief },
-    ],
-  },
-  {
-    step: "Step 5 · Keep it growing",
-    items: [{ label: "Friday review", text: prompts.weeklyReview }],
-  },
 ];
 
 export default async function CaseySpacePage() {
@@ -116,6 +79,9 @@ export default async function CaseySpacePage() {
                   <li key={b}>{b}</li>
                 ))}
               </ul>
+              <a className="btn p" href="/steps/starter-folder" download>
+                Get the starter folder <span className="arr">↓</span>
+              </a>
               <p className="sub">
                 Missing the app or a paid plan? Come anyway. You&apos;ll pair up with someone and get set up at the
                 break.
@@ -147,16 +113,7 @@ export default async function CaseySpacePage() {
             </p>
           </div>
 
-          <div className="pack">
-            {pack.map((g) => (
-              <section key={g.step}>
-                <h3 className="eb">{g.step}</h3>
-                {g.items.map((i) => (
-                  <CopyPrompt key={i.label} label={i.label} text={i.text} />
-                ))}
-              </section>
-            ))}
-          </div>
+          <PromptPack isPro />
 
           <section className="panel" style={{ marginTop: 48 }}>
             <h3>After the workshop</h3>

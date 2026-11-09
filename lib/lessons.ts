@@ -9,7 +9,8 @@ export type Block =
   | { kind: "apps"; apps: AppSteps }
   | { kind: "prompt"; label: string; text: string }
   | { kind: "split"; left: { title: string; items: string[] }; right: { title: string; items: string[] } }
-  | { kind: "tip"; text: string };
+  | { kind: "tip"; text: string }
+  | { kind: "download"; label: string; href: string; note: string };
 
 export type Part = { title: string; blocks: Block[] };
 
@@ -42,11 +43,13 @@ export const rulebookName: AppSteps = { claude: "CLAUDE.md", chatgpt: "AGENTS.md
 export const prompts = {
   firstLook: "What's in this folder, and what should we put here first?",
   interview:
-    "Interview me so you can help with my real estate business. Ask one question at a time and wait for my answer. Cover where I work and what I sell, the clients I serve best, how I find business and who's in my sphere, how I like to sound in writing, the jobs that eat up my week, and what I want help with first. Don't ask for client names or personal details. When we're done, write it up as a file called About me. Then suggest a folder layout for this Second Brain and wait for my OK before you make anything.",
+    "Interview me so you can help with my real estate business. Ask one question at a time and wait for my answer. Cover where I work and what I sell, the clients I serve best, how I find business and who's in my sphere, how I like to sound in writing, the jobs that eat up my week, and what I want help with first. Don't ask for client names or personal details. When we're done, write it up as a file called About me and save it in the About me folder if there is one. Then suggest a folder layout for this Second Brain and wait for my OK before you make anything.",
   fixAboutMe:
     "Read About me back to me in five short lines. Then change this: [what it got wrong]. Keep everything else.",
   rulebook:
     "Make a rulebook file for this folder called [CLAUDE.md for Claude, AGENTS.md for ChatGPT]. Put in: who I am in two lines from About me, our folder layout, how to name files (date first, like 2026-11-16 Showing notes Elm St), that client personal details never go in this folder, and that you ask me before you change or delete any file. Show it to me before you save it.",
+  fillRulebook:
+    "Read the rulebook in this folder. Fill in Who I am with two lines from About me, and update the folder list to match what we agreed. Show me the changes before you save them.",
   addRule: "From now on, file showing notes under Listings. Add that to the rulebook.",
   fileInbox: "File these where they belong, and tell me three things you learned about how I work.",
   cleanFile:
@@ -54,7 +57,7 @@ export const prompts = {
   followUp:
     "Using my About me and my follow-up examples, write a short check-in to a past buyer who closed about a year ago. Sound like me. Give me two versions.",
   listingCopy:
-    "Here are my notes and photos for a new listing. Using my About me and the listings I've saved, write the listing description in my voice, plus a short social post. Describe the home and the area, not who should live there. Keep it under my MLS character limit: [limit].",
+    "Here are my notes and photos for a new listing. Using my About me and the listings I've saved, write the listing description in my voice, plus a short social post. Describe the home and the area, not who should live there. Keep it under my MLS character limit: [your MLS limit].",
   cmaPrep:
     "Here are the comps for a listing appointment, with owner names taken out. Give me five talking points for the seller in plain words, and the question they're most likely to ask about price, with how I might answer it.",
   morningBrief:
@@ -87,9 +90,19 @@ export const lessons: Lesson[] = [
         ],
       },
       {
-        title: "Make one folder",
+        title: "Get your folder",
         blocks: [
-          { kind: "text", text: "Make a new, empty folder and call it Second Brain. That's it. Your AI will help you fill it in Step 2." },
+          {
+            kind: "text",
+            text: "Download the starter folder, unzip it, and move the Second Brain folder where you picked. It already has the folders and a rulebook your AI reads, so there's nothing to set up by hand.",
+          },
+          {
+            kind: "download",
+            label: "Download the starter folder",
+            href: "/steps/starter-folder",
+            note: "One small zip. Nothing to install.",
+          },
+          { kind: "tip", text: "Rather start from scratch? Make an empty folder called Second Brain instead. Your AI will help you fill it in Step 2." },
         ],
       },
       {
@@ -132,7 +145,7 @@ export const lessons: Lesson[] = [
     ],
     tasks: [
       "Choose laptop or cloud drive",
-      "Make a Second Brain folder",
+      "Get your Second Brain folder",
       "Install your AI's desktop app",
       "Open the folder in the app",
       "Keep the ask-before-changing setting on",
@@ -185,6 +198,9 @@ export const lessons: Lesson[] = [
             text: "The rulebook is one file your AI reads every time it opens your folder: how you name files, where things go, and what never goes in. Its name depends on your app.",
           },
           { kind: "apps", apps: { claude: "Claude reads a file called CLAUDE.md.", chatgpt: "ChatGPT reads a file called AGENTS.md." } },
+          { kind: "text", text: "Using the starter folder? Your rulebook is already there. Have your AI fill in who you are." },
+          { kind: "prompt", label: "Fill in the starter rulebook", text: prompts.fillRulebook },
+          { kind: "text", text: "Started from scratch? Have your AI write one." },
           { kind: "prompt", label: "Make the rulebook", text: prompts.rulebook },
           { kind: "text", text: "Then add one rule of your own. You can add more any time, in plain words." },
           { kind: "prompt", label: "Add a rule", text: prompts.addRule },
@@ -258,3 +274,40 @@ export const lessons: Lesson[] = [
 export function getLesson(step: number) {
   return lessons.find((l) => l.step === step) ?? null;
 }
+
+// The prompt pack: every ready-made prompt, grouped by Step. The same words work in Claude and ChatGPT.
+export type PackGroup = { step: number; title: string; items: { label: string; text: string }[] };
+
+export const promptPack: PackGroup[] = [
+  { step: 1, title: "Set up the house", items: [{ label: "First look at your folder", text: prompts.firstLook }] },
+  {
+    step: 2,
+    title: "Teach it who you are",
+    items: [
+      { label: "The interview", text: prompts.interview },
+      { label: "Fix a line in About me", text: prompts.fixAboutMe },
+      { label: "Fill in the starter rulebook", text: prompts.fillRulebook },
+      { label: "Make the rulebook from scratch", text: prompts.rulebook },
+      { label: "Add a rule", text: prompts.addRule },
+    ],
+  },
+  {
+    step: 3,
+    title: "Feed it your business",
+    items: [
+      { label: "Check a file before it goes in", text: prompts.cleanFile },
+      { label: "File your Inbox", text: prompts.fileInbox },
+    ],
+  },
+  {
+    step: 4,
+    title: "Put it to work",
+    items: [
+      { label: "Follow-up", text: prompts.followUp },
+      { label: "Listing copy", text: prompts.listingCopy },
+      { label: "CMA talking points", text: prompts.cmaPrep },
+      { label: "Morning brief", text: prompts.morningBrief },
+    ],
+  },
+  { step: 5, title: "Keep it growing", items: [{ label: "Friday review", text: prompts.weeklyReview }] },
+];

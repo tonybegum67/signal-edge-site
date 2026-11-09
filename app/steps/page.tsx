@@ -68,6 +68,12 @@ export default async function StepsPage() {
             })}
           </ol>
 
+          <Link className="space-card" href="/steps/prompts" style={{ marginTop: 28 }}>
+            <span className="eb">Prompt pack</span>
+            <strong>Every prompt, ready to copy</strong>
+            <span>For Claude or ChatGPT, grouped by Step.</span>
+          </Link>
+
           {!isPro ? (
             <p className="sub" style={{ marginTop: 24 }}>
               Got an access code? <Link href="/account">Add it on My account</Link> to open every Step.

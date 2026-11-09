@@ -301,3 +301,6 @@ footer{border-top:1px solid var(--line);background:#060D18;color:#8794A6;font-si
 .pack{display:grid;gap:36px}
 .pack section{display:grid;gap:12px}
 .space .panel .btn{justify-self:start}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px}
+.dl span{font:500 12px var(--mono);letter-spacing:.06em;color:#8794A6}
+.space .panel .btn.p{justify-self:start}
