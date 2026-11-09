@@ -10,6 +10,7 @@ export type FormState = { status: "idle" | "done" | "error"; message?: string; a
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const AI = new Set(["claude", "chatgpt", "free", "none"]);
 const LAPTOP = new Set(["mac", "win", "unsure"]);
+const FILES = new Set(["google", "dropbox", "onedrive", "computer", "mix"]);
 const ROLES = new Set(["Agent", "Team lead or broker", "Operations or admin", "Business owner", "Other"]);
 
 const NOT_ON = "Forms aren't switched on yet. Check back soon.";
@@ -76,6 +77,8 @@ export async function sendPrep(_prev: FormState, formData: FormData): Promise<Fo
   const role = text(formData, "role", 60);
   const ai = text(formData, "ai", 20);
   const laptop = text(formData, "laptop", 20);
+  const files = text(formData, "files", 20);
+  const comfort = Number(text(formData, "comfort", 1));
   const optIn = formData.get("optin") === "on";
   const { data } = await supabase.auth.getUser();
 
@@ -87,6 +90,10 @@ export async function sendPrep(_prev: FormState, formData: FormData): Promise<Fo
     ai_tool: AI.has(ai) ? ai : null,
     laptop: LAPTOP.has(laptop) ? laptop : null,
     time_sink: text(formData, "timeSink", 500) || null,
+    files_location: FILES.has(files) ? files : null,
+    crm: text(formData, "crm", 120) || null,
+    ai_comfort: comfort >= 1 && comfort <= 5 ? comfort : null,
+    remember: text(formData, "remember", 1000) || null,
     newsletter_opt_in: optIn,
     user_id: data.user?.id ?? null,
   });
