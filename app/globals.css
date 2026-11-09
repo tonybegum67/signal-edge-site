@@ -258,3 +258,46 @@ footer{border-top:1px solid var(--line);background:#060D18;color:#8794A6;font-si
 .account dt{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7E8B9D;padding-top:3px}
 .account dd{margin:0;color:var(--ti);overflow-wrap:anywhere}
 .account .panel .btn{justify-self:start}
+
+/* Steps lessons and company spaces */
+.mods li.go a{display:grid;grid-template-columns:56px 1fr;gap:14px;text-decoration:none;color:inherit}
+.mods li.go{grid-template-columns:1fr;transition:background .2s}
+.mods li.go:hover strong{color:var(--amber)}
+.mods li.soon{opacity:.6}
+.crumb{font:500 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#7E8B9D;margin-bottom:20px}
+.crumb a{color:#9AA6B6}
+.lesson-page{max-width:880px}
+.lesson-page>.lesson{margin-top:40px}
+.parts{list-style:none;margin:0;padding:0;display:grid;border-top:1px solid var(--line)}
+.parts>li{display:grid;grid-template-columns:56px minmax(0,1fr);gap:14px;padding:28px 0;border-bottom:1px solid var(--line)}
+.parts .n{font:500 12px var(--mono);letter-spacing:.1em;color:var(--amber);padding-top:6px}
+.part{display:grid;gap:14px;min-width:0}
+.part h2{font-family:var(--display);font-stretch:118%;font-weight:800;font-size:clamp(20px,2.2vw,24px);text-transform:uppercase;line-height:1.1;color:var(--ti-hi)}
+.part p{color:var(--ti);font-size:16px;max-width:64ch}
+.ticks{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.ticks li{display:grid;grid-template-columns:16px 1fr;gap:10px;font-size:15.5px;color:var(--ti)}
+.ticks li::before{content:"";width:10px;height:2px;background:var(--amber);margin-top:12px}
+.tip{border-left:2px solid var(--amber);padding:4px 0 4px 14px;color:#C9D1DB}
+.apps,.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}
+.apps>div,.split>div{background:var(--navy-2);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;gap:10px;align-content:start;min-width:0}
+.split .no{border-color:#4A3A2A}
+.app{font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--amber)}
+.split .no .app{color:#E39A6B}
+.split .no .ticks li::before{background:#E39A6B}
+.prompt{margin:0;background:var(--navy);border:1px solid #2A4163;border-radius:6px;padding:16px 18px;display:grid;gap:10px;min-width:0}
+.prompt figcaption{display:flex;justify-content:space-between;align-items:center;gap:12px;font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#8794A6}
+.prompt p{font-family:var(--mono);font-size:14px;line-height:1.6;color:var(--ti-hi);white-space:pre-wrap;overflow-wrap:anywhere}
+.copy{background:none;border:1px solid #3A4A63;color:var(--ti-hi);border-radius:3px;padding:6px 10px;font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.copy:hover{border-color:var(--amber);color:var(--amber)}
+.space-card{display:grid;gap:6px;margin-bottom:28px;padding:22px 24px;border:1px solid #2E4668;border-radius:6px;background:linear-gradient(160deg,#162C4D 0%,var(--navy-2) 70%);text-decoration:none;color:var(--ti)}
+.space-card strong{font-family:var(--display);font-stretch:118%;font-weight:800;font-size:22px;text-transform:uppercase;color:var(--ti-hi)}
+.space-card:hover{border-color:var(--amber)}
+.agenda{list-style:none;margin:0;padding:0;display:grid}
+.agenda li{display:grid;grid-template-columns:56px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.agenda .t{font:500 12px var(--mono);color:var(--amber);padding-top:3px}
+.agenda strong{display:block;color:var(--ti-hi);font-weight:600}
+.agenda strong a{color:inherit}
+.agenda span{font-size:14.5px;color:#A2ADBC}
+.pack{display:grid;gap:36px}
+.pack section{display:grid;gap:12px}
+.space .panel .btn{justify-self:start}

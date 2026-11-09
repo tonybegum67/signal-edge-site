@@ -16,6 +16,7 @@ Each file is safe to run twice.
 | `20261106_codes.sql` | Access codes and Pro memberships, plus the CASEY-LESHER code (90 days of Pro) |
 | `20261106_prep_more.sql` | Four more prep questions: where files live, CRM, AI comfort (1 to 5), anything to remember. Run before merging the form change. |
 | `20261107_prep_thanks.sql` | Remembers which addresses got the prep thank-you email, so each gets it once |
+| `20261109_space.sql` | Lets members see which access codes they added, so a company code opens that company's space |
 
 ## Where to see the answers
 
