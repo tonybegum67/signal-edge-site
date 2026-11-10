@@ -26,7 +26,7 @@ export default function Home() {
         <div className="ribbon">
           <div className="in">
             <span>
-              <b>Preview</b> · Forms don&apos;t save yet · Case study numbers are placeholders
+              <b>Preview</b> · Case study numbers are placeholders
             </span>
           </div>
         </div>
