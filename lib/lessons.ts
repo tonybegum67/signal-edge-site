@@ -28,13 +28,13 @@ export type Lesson = {
 
 export type StepSummary = { step: number; title: string; body: string; free: boolean; ready: boolean };
 
-// The five Steps, in order. Lessons for Steps 4 and 5 come after the Nov 16 session.
+// The five Steps, in order.
 export const stepSummaries: StepSummary[] = [
   { step: 1, title: "Set up the house", body: "Where your brain lives and the line between personal notes and client data", free: true, ready: true },
   { step: 2, title: "Teach it who you are", body: "A guided interview on your business, market, sphere and voice", free: false, ready: true },
   { step: 3, title: "Feed it your business", body: "Listings, past deals and scripts, with client details stripped out first", free: false, ready: true },
-  { step: 4, title: "Put it to work", body: "Morning brief, listing copy, follow-ups and CMA prep", free: false, ready: false },
-  { step: 5, title: "Keep it growing", body: "A weekly review and staying compliant as tools change", free: false, ready: false },
+  { step: 4, title: "Put it to work", body: "Morning brief, listing copy, follow-ups and CMA prep", free: false, ready: true },
+  { step: 5, title: "Keep it growing", body: "A weekly review and staying compliant as tools change", free: false, ready: true },
 ];
 
 // The rulebook is the file your AI reads every time it opens your folder. The name depends on the app.
@@ -62,6 +62,14 @@ export const prompts = {
     "Here are the comps for a listing appointment, with owner names taken out. Give me five talking points for the seller in plain words, and the question they're most likely to ask about price, with how I might answer it.",
   morningBrief:
     "Read today's daily note and anything new in Inbox. Give me a short brief: what's on today, who I owe a follow-up, and one thing to prep.",
+  dailyNote:
+    "Start today's note in Daily notes. Here's my day: [your appointments and calls]. Add anyone I owe a call, and anything still open from my last note.",
+  savePrompt:
+    "Save the prompt I just used in Scripts and templates, named [a short name], so I can ask for it by name next time.",
+  fixRule:
+    "You got this wrong: [what was off]. Add a rule to my rulebook so it doesn't happen again, and show me the rule before you save it.",
+  privacyCheck:
+    "Scan my whole Second Brain for anything that shouldn't be here: client phone numbers, home addresses, ID, bank or loan details, signed contracts or passwords. List what you find and where. Don't change or delete anything until I tell you to.",
   weeklyReview:
     "Weekly review: file everything in Inbox, tell me what's new this week, and suggest one thing to add to my rulebook.",
 } as const;
@@ -269,6 +277,147 @@ export const lessons: Lesson[] = [
       "Read the three things it learned",
     ],
   },
+  {
+    step: 4,
+    title: "Put it to work",
+    headline: "Four jobs to hand off",
+    minutes: 25,
+    free: false,
+    intro:
+      "Now your AI pays you back. Everyone starts with a follow-up that sounds like you. Then try listing copy, CMA talking points and a morning brief, and keep the ones that save you time.",
+    parts: [
+      {
+        title: "Your first follow-up",
+        blocks: [
+          {
+            kind: "list",
+            items: [
+              "Think of one person you owe a check-in.",
+              "Describe them without their name. \"A buyer who closed about a year ago\" is plenty.",
+              "Ask for it in your voice, then edit one line so it's yours.",
+            ],
+          },
+          { kind: "prompt", label: "Write the follow-up", text: prompts.followUp },
+          {
+            kind: "tip",
+            text: "Nothing gets sent from your AI. Copy the draft into your own email or CRM when you're happy with it, and add the name there.",
+          },
+          {
+            kind: "text",
+            text: "Doesn't sound like you yet? Drop two more of your real follow-up emails into Inbox, have your AI file them, and try again.",
+          },
+        ],
+      },
+      {
+        title: "Listing copy",
+        blocks: [
+          { kind: "text", text: "Give it your notes and photos, and it writes the description and a social post in your voice." },
+          { kind: "prompt", label: "Write the listing copy", text: prompts.listingCopy },
+          {
+            kind: "tip",
+            text: "Describe the home and the area, never who should live there. Read every line before it goes on the MLS.",
+          },
+        ],
+      },
+      {
+        title: "CMA talking points",
+        blocks: [
+          { kind: "text", text: "Take owner names out of your comps first, then paste them in or drop the file into Inbox." },
+          { kind: "prompt", label: "Get talking points", text: prompts.cmaPrep },
+        ],
+      },
+      {
+        title: "Morning brief",
+        blocks: [
+          {
+            kind: "text",
+            text: "Your brief reads your daily note, so start one each morning. Type or talk it in, in a minute.",
+          },
+          { kind: "prompt", label: "Start today's note", text: prompts.dailyNote },
+          { kind: "prompt", label: "Get your brief", text: prompts.morningBrief },
+        ],
+      },
+      {
+        title: "Keep what works",
+        blocks: [
+          { kind: "text", text: "When a prompt saves you time, save it, and next time just ask for it by name." },
+          { kind: "prompt", label: "Save a prompt", text: prompts.savePrompt },
+        ],
+      },
+    ],
+    tasks: [
+      "Draft your first follow-up",
+      "Edit one line so it sounds like you",
+      "Try the listing copy",
+      "Try the CMA talking points",
+      "Start a daily note and get your brief",
+      "Save the prompt you liked best",
+    ],
+  },
+  {
+    step: 5,
+    title: "Keep it growing",
+    headline: "15 minutes on a Friday",
+    minutes: 15,
+    free: false,
+    intro:
+      "A second brain gets better the more it knows. Fifteen minutes a week keeps it filed, current and safe, and every fix you make sticks.",
+    parts: [
+      {
+        title: "Block the time",
+        blocks: [
+          { kind: "text", text: "Put a 15-minute block on your calendar every Friday, now, before you close the laptop." },
+        ],
+      },
+      {
+        title: "Run the weekly review",
+        blocks: [
+          { kind: "text", text: "Drop the week's new files into Inbox, then let your AI do the rest." },
+          { kind: "prompt", label: "Weekly review", text: prompts.weeklyReview },
+        ],
+      },
+      {
+        title: "Fix it once",
+        blocks: [
+          {
+            kind: "text",
+            text: "When your AI gets something wrong, don't just fix the draft. Add a rule, and it won't make the same mistake again.",
+          },
+          { kind: "prompt", label: "Add a rule", text: prompts.fixRule },
+        ],
+      },
+      {
+        title: "Keep it safe",
+        blocks: [
+          {
+            kind: "list",
+            items: [
+              "Run the privacy check once a month.",
+              "Keep the setting that asks before your AI changes files.",
+              "Your brokerage's policy always wins. If it changes, add a rule.",
+            ],
+          },
+          { kind: "prompt", label: "Privacy check", text: prompts.privacyCheck },
+        ],
+      },
+      {
+        title: "Stay current",
+        blocks: [
+          {
+            kind: "text",
+            text: "AI tools change fast. Clear Signal is our free email, twice a month, on what's new and worth your time. Switch it on in My account.",
+          },
+        ],
+      },
+    ],
+    tasks: [
+      "Block 15 minutes on Fridays",
+      "Run your first weekly review",
+      "Add a rule when it gets something wrong",
+      "Run the privacy check",
+      "Switch on Clear Signal",
+    ],
+  },
 ];
 
 export function getLesson(step: number) {
@@ -306,8 +455,18 @@ export const promptPack: PackGroup[] = [
       { label: "Follow-up", text: prompts.followUp },
       { label: "Listing copy", text: prompts.listingCopy },
       { label: "CMA talking points", text: prompts.cmaPrep },
+      { label: "Start today's note", text: prompts.dailyNote },
       { label: "Morning brief", text: prompts.morningBrief },
+      { label: "Save a prompt", text: prompts.savePrompt },
     ],
   },
-  { step: 5, title: "Keep it growing", items: [{ label: "Friday review", text: prompts.weeklyReview }] },
+  {
+    step: 5,
+    title: "Keep it growing",
+    items: [
+      { label: "Friday review", text: prompts.weeklyReview },
+      { label: "Add a rule", text: prompts.fixRule },
+      { label: "Privacy check", text: prompts.privacyCheck },
+    ],
+  },
 ];
