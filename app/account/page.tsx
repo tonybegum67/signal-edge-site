@@ -94,7 +94,7 @@ export default async function AccountPage({ searchParams }: { searchParams: Prom
                     : `Free: Step 1 and ${site.newsletterName}`}
                 </dd>
                 <dt>Progress</dt>
-                <dd>Steps 1 to 3 are ready. Your ticks save on this device.</dd>
+                <dd>All five Steps are ready. Your ticks save on this device.</dd>
               </dl>
               <Link className="btn" href="/steps">
                 Go to My Steps
