@@ -1,0 +1,10 @@
+{
+  "number": "001",
+  "date": "November 2026",
+  "title": "Find your busywork",
+  "intro": "Copy this into ChatGPT or Claude, fill in the brackets, and send.",
+  "prompt": "I'm a real estate agent. Here are the tasks I repeat every week and about how long each takes:\n[list them, for example: texting new leads back, 3 hours; writing listing descriptions, 2 hours; updating my CRM, 2 hours]\nRank them by how much AI could help, biggest time saver first. For the top three, tell me in plain words what AI can do and what I should still do myself, then write me a ready-to-use prompt for each one. Ask me up to three questions first if anything is unclear. Don't ask for client names or private details.",
+  "promptNote": "What you'll get back: a short ranked list and three prompts you can use tomorrow.",
+  "homework": "Run the prompt and hit reply on the Clear Signal email with your top three. Tony reads every one.",
+  "step": 1
+}
