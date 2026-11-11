@@ -304,3 +304,22 @@ footer{border-top:1px solid var(--line);background:#060D18;color:#8794A6;font-si
 .dl{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px}
 .dl span{font:500 12px var(--mono);letter-spacing:.06em;color:#8794A6}
 .space .panel .btn.p{justify-self:start}
+
+/* Clear Signal issue and unsubscribe pages */
+.issue-page>.prompt{margin-top:8px}
+.issue-note{margin-top:14px;color:#A2ADBC;font-size:15.5px}
+.issue-note a{color:var(--amber)}
+.issue-block{margin-top:28px}
+.issue-block p{color:var(--ti);font-size:16px;line-height:1.6}
+.issue-h{font-family:var(--display);font-stretch:118%;font-weight:800;font-size:clamp(20px,2.2vw,24px);text-transform:uppercase;line-height:1.1;color:#F3F5F8}
+.unsub{max-width:640px}
+.unsub form{margin-top:28px}
+.unsub .lede{margin-top:20px}
+.unsub .back{margin-top:36px}
+.unsub .back a{color:var(--amber)}
+.issue-list{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.issue-list a{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:baseline;padding:16px 18px;background:var(--navy-2);border:1px solid var(--line);border-radius:6px;color:var(--ti-hi);text-decoration:none;font-size:17px}
+.issue-list a:hover{border-color:var(--amber)}
+.issue-num{font:600 12px var(--mono);letter-spacing:.1em;color:var(--amber)}
+.issue-date{font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#7E8B9D}
+@media (max-width:520px){.issue-list a{grid-template-columns:auto 1fr}.issue-date{display:none}}
