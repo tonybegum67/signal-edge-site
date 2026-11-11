@@ -6,8 +6,10 @@ import nodemailer from "nodemailer";
 const user = process.env.SMTP_USER ?? "";
 const pass = process.env.SMTP_PASSWORD ?? "";
 export const mailConfigured = Boolean(user && pass);
+// The site's own mailbox (tony@signal-edge.ai). Sign-up notices go here.
+export const ownerAddress = user;
 
-export async function sendMail(msg: { to: string; subject: string; html: string; text: string }) {
+export async function sendMail(msg: { to: string; subject: string; html: string; text: string; replyTo?: string }) {
   if (!mailConfigured) return false;
   const transport = nodemailer.createTransport({
     host: "smtp.gmail.com",
