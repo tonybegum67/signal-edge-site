@@ -1,8 +1,9 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { prepNoticeEmail, type PrepAnswers } from "@/lib/emails/prep-notice";
 import { prepThanksEmail } from "@/lib/emails/prep-thanks";
-import { mailConfigured, sendMail } from "@/lib/mail";
+import { mailConfigured, ownerAddress, sendMail } from "@/lib/mail";
 import { site } from "@/lib/site";
 
 export type FormState = { status: "idle" | "done" | "error"; message?: string; already?: boolean };
@@ -51,6 +52,16 @@ async function sendPrepThanks(supabase: Db, email: string, firstName: string) {
   }
 }
 
+// Tells Tony someone signed up. Goes to the site's own mailbox only; a mail problem never fails the form.
+async function sendPrepNotice(answers: PrepAnswers) {
+  if (!mailConfigured) return;
+  try {
+    await sendMail({ to: ownerAddress, replyTo: answers.email, ...prepNoticeEmail(answers) });
+  } catch (e) {
+    console.error("sign-up notice failed", e instanceof Error ? e.message : e);
+  }
+}
+
 export async function subscribe(_prev: FormState, formData: FormData): Promise<FormState> {
   const email = text(formData, "email", 254).toLowerCase();
   if (!EMAIL.test(email)) return { status: "error", message: "Add an email address like name@company.com." };
@@ -82,18 +93,33 @@ export async function sendPrep(_prev: FormState, formData: FormData): Promise<Fo
   const optIn = formData.get("optin") === "on";
   const { data } = await supabase.auth.getUser();
 
-  const { error } = await supabase.from("prep_responses").insert({
+  const answers: PrepAnswers = {
     name,
     email,
     company: text(formData, "company", 160) || null,
     role: ROLES.has(role) ? role : null,
-    ai_tool: AI.has(ai) ? ai : null,
+    aiTool: AI.has(ai) ? ai : null,
     laptop: LAPTOP.has(laptop) ? laptop : null,
-    time_sink: text(formData, "timeSink", 500) || null,
-    files_location: FILES.has(files) ? files : null,
+    filesLocation: FILES.has(files) ? files : null,
     crm: text(formData, "crm", 120) || null,
-    ai_comfort: comfort >= 1 && comfort <= 5 ? comfort : null,
+    aiComfort: comfort >= 1 && comfort <= 5 ? comfort : null,
+    timeSink: text(formData, "timeSink", 500) || null,
     remember: text(formData, "remember", 1000) || null,
+    newsletterOptIn: optIn,
+  };
+
+  const { error } = await supabase.from("prep_responses").insert({
+    name,
+    email,
+    company: answers.company,
+    role: answers.role,
+    ai_tool: answers.aiTool,
+    laptop: answers.laptop,
+    time_sink: answers.timeSink,
+    files_location: answers.filesLocation,
+    crm: answers.crm,
+    ai_comfort: answers.aiComfort,
+    remember: answers.remember,
     newsletter_opt_in: optIn,
     user_id: data.user?.id ?? null,
   });
@@ -106,7 +132,7 @@ export async function sendPrep(_prev: FormState, formData: FormData): Promise<Fo
   if (optIn) await addSubscriber(supabase, email, "prep_form");
 
   const first = name.split(" ")[0];
-  await sendPrepThanks(supabase, email, first);
+  await Promise.all([sendPrepThanks(supabase, email, first), sendPrepNotice(answers)]);
 
   return { status: "done", message: `Thanks, ${first}. You're set for the session${optIn ? ` and on ${site.newsletterName}` : ""}.` };
 }
