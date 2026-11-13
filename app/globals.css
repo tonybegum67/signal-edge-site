@@ -323,3 +323,4 @@ footer{border-top:1px solid var(--line);background:#060D18;color:#8794A6;font-si
 .issue-num{font:600 12px var(--mono);letter-spacing:.1em;color:var(--amber)}
 .issue-date{font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#7E8B9D}
 @media (max-width:520px){.issue-list a{grid-template-columns:auto 1fr}.issue-date{display:none}}
+.billing-choice{display:flex;flex-wrap:wrap;gap:12px}

@@ -49,18 +49,32 @@ jobs:
       # secret exists in Secret Manager (see docs/site-emails.md). The password never touches GitHub.
       # Clear Signal sending switches on only once CLEAR_SIGNAL_SENDING is "on" and its two secrets
       # exist (see docs/clear-signal-sending.md). Neither secret ever touches GitHub.
+      # Card billing switches on only once STRIPE_BILLING is "on" and the Stripe key, the webhook
+      # signing secret and the Supabase service role exist (see docs/stripe-billing.md).
       - name: Deploy
         env:
           SMTP_USER: ${{ vars.SMTP_USER }}
           CLEAR_SIGNAL_SENDING: ${{ vars.CLEAR_SIGNAL_SENDING }}
+          STRIPE_BILLING: ${{ vars.STRIPE_BILLING }}
         run: |
-          MAIL_ARGS=()
+          SECRETS=()
+          ENV_ARGS=()
           if [ -n "$SMTP_USER" ]; then
-            SECRETS="SMTP_PASSWORD=smtp-password:latest"
+            ENV_ARGS=(--update-env-vars "SMTP_USER=$SMTP_USER")
+            SECRETS+=("SMTP_PASSWORD=smtp-password:latest")
             if [ "$CLEAR_SIGNAL_SENDING" = "on" ]; then
-              SECRETS="$SECRETS,SUPABASE_SERVICE_ROLE_KEY=supabase-service-role:latest,CLEAR_SIGNAL_SEND_KEY=clear-signal-send-key:latest"
+              SECRETS+=("SUPABASE_SERVICE_ROLE_KEY=supabase-service-role:latest" "CLEAR_SIGNAL_SEND_KEY=clear-signal-send-key:latest")
             fi
-            MAIL_ARGS=(--update-env-vars "SMTP_USER=$SMTP_USER" --update-secrets "$SECRETS")
+          fi
+          if [ "$STRIPE_BILLING" = "on" ]; then
+            SECRETS+=("STRIPE_SECRET_KEY=stripe-secret-key:latest" "STRIPE_WEBHOOK_SECRET=stripe-webhook-secret:latest")
+            if [[ ! " ${SECRETS[*]} " =~ SUPABASE_SERVICE_ROLE_KEY= ]]; then
+              SECRETS+=("SUPABASE_SERVICE_ROLE_KEY=supabase-service-role:latest")
+            fi
+          fi
+          SECRET_ARGS=()
+          if [ ${#SECRETS[@]} -gt 0 ]; then
+            SECRET_ARGS=(--update-secrets "$(IFS=,; echo "${SECRETS[*]}")")
           fi
           gcloud run deploy "$SERVICE" \
             --project "${{ vars.GCP_PROJECT_ID }}" \
@@ -70,7 +84,8 @@ jobs:
             --port 8080 \
             --min-instances 0 \
             --max-instances 3 \
-            "${MAIL_ARGS[@]}" \
+            "${ENV_ARGS[@]}" \
+            "${SECRET_ARGS[@]}" \
             --quiet
 
       - name: Show the address
