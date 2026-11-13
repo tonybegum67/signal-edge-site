@@ -47,13 +47,20 @@ jobs:
       # the usual "allUsers" grant (--allow-unauthenticated), so that route returns 403 Forbidden.
       # Email sending switches on only once the SMTP_USER variable is set and the smtp-password
       # secret exists in Secret Manager (see docs/site-emails.md). The password never touches GitHub.
+      # Clear Signal sending switches on only once CLEAR_SIGNAL_SENDING is "on" and its two secrets
+      # exist (see docs/clear-signal-sending.md). Neither secret ever touches GitHub.
       - name: Deploy
         env:
           SMTP_USER: ${{ vars.SMTP_USER }}
+          CLEAR_SIGNAL_SENDING: ${{ vars.CLEAR_SIGNAL_SENDING }}
         run: |
           MAIL_ARGS=()
           if [ -n "$SMTP_USER" ]; then
-            MAIL_ARGS=(--update-env-vars "SMTP_USER=$SMTP_USER" --update-secrets "SMTP_PASSWORD=smtp-password:latest")
+            SECRETS="SMTP_PASSWORD=smtp-password:latest"
+            if [ "$CLEAR_SIGNAL_SENDING" = "on" ]; then
+              SECRETS="$SECRETS,SUPABASE_SERVICE_ROLE_KEY=supabase-service-role:latest,CLEAR_SIGNAL_SEND_KEY=clear-signal-send-key:latest"
+            fi
+            MAIL_ARGS=(--update-env-vars "SMTP_USER=$SMTP_USER" --update-secrets "$SECRETS")
           fi
           gcloud run deploy "$SERVICE" \
             --project "${{ vars.GCP_PROJECT_ID }}" \
@@ -69,3 +76,20 @@ jobs:
       - name: Show the address
         run: |
           gcloud run services describe "$SERVICE" --project "${{ vars.GCP_PROJECT_ID }}" --region "$REGION" --format='value(status.url)'
+
+      # Sends any Clear Signal issue that's due: a test copy to Tony, or the real issue to every subscriber.
+      # Safe to run on every deploy, because the site skips anyone who already got that issue.
+      - name: Send due Clear Signal emails
+        if: ${{ vars.CLEAR_SIGNAL_SENDING == 'on' && vars.SMTP_USER != '' }}
+        run: |
+          KEY=$(gcloud secrets versions access latest --secret=clear-signal-send-key --project "${{ vars.GCP_PROJECT_ID }}")
+          echo "::add-mask::$KEY"
+          URL=$(gcloud run services describe "$SERVICE" --project "${{ vars.GCP_PROJECT_ID }}" --region "$REGION" --format='value(status.url)')
+          for ROUND in $(seq 1 20); do
+            RES=$(curl -sS --fail-with-body --max-time 290 -X POST "$URL/api/clear-signal/send" -H "Authorization: Bearer $KEY") || { echo "$RES"; exit 1; }
+            echo "$RES"
+            REMAINING=$(echo "$RES" | jq -r '.remaining')
+            if [ "$REMAINING" = "0" ]; then exit 0; fi
+          done
+          echo "Clear Signal: $REMAINING emails still waiting after 20 rounds. Check the Cloud Run logs."
+          exit 1
