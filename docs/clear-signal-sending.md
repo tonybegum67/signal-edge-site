@@ -4,6 +4,8 @@ Clear Signal sends itself. Merging an issue to `main` deploys the site, and the 
 
 Every email is the branded Live Signal design (header image, colors, fonts), with a plain-text version alongside for mail apps that want one.
 
+One-off marketing emails to the same list (a workshop, a new offer) go out the same way. See `announcements.md`.
+
 ## What gets sent, and to whom
 
 Each issue has two files:
