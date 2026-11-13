@@ -1,19 +1,22 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 import { NextResponse, type NextRequest } from "next/server";
-import { getIssueEmails, type IssueEmail } from "@/lib/clear-signal-emails";
+import { getIssueEmails, type Audience } from "@/lib/clear-signal-emails";
 import { clearSignalIssueEmail } from "@/lib/emails/clear-signal-issue";
+import { getAnnouncements } from "@/lib/announcements";
+import { announcementEmail } from "@/lib/emails/announcement";
 import { listUnsubscribeHeaders, unsubscribeUrl } from "@/lib/clear-signal";
 import { mailConfigured, openMailer, ownerAddress } from "@/lib/mail";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { site } from "@/lib/site";
 
-// Sends every Clear Signal issue that's due. The deploy calls this right after each merge to main
-// (see .github/workflows/deploy.yml), so merging an issue is what sends it.
+// Sends every marketing email that's due: Clear Signal issues and one-off announcements.
+// The deploy calls this right after each merge to main (see .github/workflows/deploy.yml),
+// so merging an issue or an announcement is what sends it.
 //
-// - An issue with "audience": "test" goes only to the site's own mailbox, once per version of its content.
-// - An issue with "audience": "everyone" goes to every subscriber who hasn't unsubscribed, read fresh
+// - An email with "audience": "test" goes only to the site's own mailbox, once per version of its content.
+// - An email with "audience": "everyone" goes to every subscriber who hasn't unsubscribed, read fresh
 //   from Supabase when it first goes out, so every sign-up up to that moment is included.
-// - Every send is recorded in newsletter_sends first, so a redeploy or retry never sends anyone the same issue twice.
+// - Every send is recorded in newsletter_sends first, so a redeploy or retry never sends anyone the same email twice.
 //
 // Each call sends what it can in about three minutes and reports how many are left; the deploy calls again until none are.
 
@@ -36,7 +39,7 @@ function authorized(request: NextRequest) {
 type Admin = NonNullable<ReturnType<typeof createAdminClient>>;
 type Recipient = { email: string; token: string | null };
 
-// Everyone subscribed when the issue first went out. Someone who joins later starts with the next issue,
+// Everyone subscribed when the email first went out. Someone who joins later starts with the next one,
 // instead of getting an old one on some unrelated deploy weeks later.
 async function activeSubscribers(db: Admin, key: string): Promise<Recipient[]> {
   const first = await db.from("newsletter_sends").select("created_at").eq("send_key", key).order("created_at").limit(1);
@@ -74,11 +77,38 @@ async function alreadySent(db: Admin, key: string) {
   }
 }
 
-// A test copy gets a new key whenever the issue's words change, so each edit can be checked in the inbox.
-function sendKey(m: IssueEmail) {
-  if (m.audience === "everyone") return m.number;
-  const version = createHash("sha256").update(JSON.stringify(m)).digest("hex").slice(0, 10);
-  return `${m.number}-test-${version}`;
+// One email to send: a Clear Signal issue or an announcement.
+type Mailing = {
+  name: string; // for the report: "001" or "workshop-dec"
+  audience: Audience;
+  key: string; // its key in newsletter_sends
+  render: (opts: { unsubscribeUrl: string; test: boolean }) => { subject: string; html: string; text: string };
+};
+
+// The real send of an email has a fixed key: "001" for issue 001, "a-<slug>" for an announcement.
+// A test copy gets a new key whenever the words change, so each edit can be checked in the inbox.
+function sendKey(base: string, audience: Audience, content: unknown) {
+  if (audience === "everyone") return base;
+  const version = createHash("sha256").update(JSON.stringify(content)).digest("hex").slice(0, 10);
+  return `${base}-test-${version}`;
+}
+
+// Issues first, oldest first, then announcements.
+function dueMailings(): Mailing[] {
+  return [
+    ...getIssueEmails().map((m) => ({
+      name: m.number,
+      audience: m.audience,
+      key: sendKey(m.number, m.audience, m),
+      render: (o: { unsubscribeUrl: string; test: boolean }) => clearSignalIssueEmail(m, o),
+    })),
+    ...getAnnouncements().map((a) => ({
+      name: a.slug,
+      audience: a.audience,
+      key: sendKey(`a-${a.slug}`, a.audience, a),
+      render: (o: { unsubscribeUrl: string; test: boolean }) => announcementEmail(a, o),
+    })),
+  ];
 }
 
 export async function POST(request: NextRequest) {
@@ -86,25 +116,25 @@ export async function POST(request: NextRequest) {
   const db = createAdminClient();
   if (!db || !mailConfigured) return NextResponse.json({ error: "sending is not switched on" }, { status: 503 });
 
-  let issues: IssueEmail[];
+  let mailings: Mailing[];
   try {
-    issues = getIssueEmails();
+    mailings = dueMailings();
   } catch (err) {
-    console.error("clear signal: bad issue file", err);
-    return NextResponse.json({ error: "an issue file is invalid" }, { status: 500 });
+    console.error("clear signal: bad email file", err);
+    return NextResponse.json({ error: "an email file is invalid" }, { status: 500 });
   }
 
   const mailer = openMailer(site.newsletterName)!;
   const deadline = Date.now() + TIME_BUDGET_MS;
-  const report: { issue: string; audience: string; sent: number; failed: number; remaining: number }[] = [];
+  const report: { email: string; audience: string; sent: number; failed: number; remaining: number }[] = [];
 
   try {
-    for (const m of issues) {
-      const key = sendKey(m);
+    for (const m of mailings) {
+      const key = m.key;
       const recipients = m.audience === "everyone" ? await activeSubscribers(db, key) : [await testRecipient(db)];
       const sent = await alreadySent(db, key);
       const todo = recipients.filter((r) => !sent.has(r.email.toLowerCase()));
-      const row = { issue: m.number, audience: m.audience, sent: 0, failed: 0, remaining: todo.length };
+      const row = { email: m.name, audience: m.audience, sent: 0, failed: 0, remaining: todo.length };
       report.push(row);
 
       let failedInARow = 0;
@@ -118,7 +148,7 @@ export async function POST(request: NextRequest) {
           continue;
         }
         const unsub = r.token ? unsubscribeUrl(r.token) : `${site.url}/clear-signal`;
-        const mail = clearSignalIssueEmail(m, { unsubscribeUrl: unsub, test: m.audience === "test" });
+        const mail = m.render({ unsubscribeUrl: unsub, test: m.audience === "test" });
         try {
           await mailer.send({
             to: r.email,
@@ -133,7 +163,7 @@ export async function POST(request: NextRequest) {
           await db.from("newsletter_sends").delete().eq("send_key", key).eq("email", r.email);
           row.failed++;
           failedInARow++;
-          console.error("clear signal: send failed", m.number, err instanceof Error ? err.message : err);
+          console.error("clear signal: send failed", m.name, err instanceof Error ? err.message : err);
         }
       }
     }
