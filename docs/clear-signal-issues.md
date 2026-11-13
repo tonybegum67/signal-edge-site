@@ -45,12 +45,13 @@ Write it in the Live Signal voice: plain, friendly, no jargon, no em dashes. The
 The page and the email go out together:
 
 1. The newsletter run drafts the issue.
-2. The same run adds `content/clear-signal/NNN.json` on a new branch and opens a pull request with just that file.
-3. Tony reads the draft and the page, and merges the pull request when he approves the issue.
-4. The merge deploys the site. The page is live a few minutes later at `/clear-signal/NNN`.
-5. The email goes out with its "Try this week's exercise" link pointing at that page.
+2. The same run adds `content/clear-signal/NNN.json` and `content/clear-signal/email/NNN.json` (with `"audience": "test"`) on a new branch and opens a pull request with just those files.
+3. Tony reads the draft and merges the pull request. The merge deploys the site: the page goes live at `/clear-signal/NNN` and Tony gets a branded test copy of the email.
+4. When the test looks right, a one-line pull request changes `"audience"` to `"everyone"`. Merging it sends the issue to every subscriber.
 
-Until the pull request is merged, the issue appears nowhere on the site: not on its own address and not in the list. So an unsent issue is never public.
+`clear-signal-sending.md` has the email file's format and how sending works.
+
+Until the first pull request is merged, the issue appears nowhere on the site: not on its own address and not in the list. So an unsent issue is never public.
 
 ## Linking to the page from the email
 

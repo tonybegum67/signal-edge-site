@@ -9,16 +9,41 @@ export const mailConfigured = Boolean(user && pass);
 // The site's own mailbox (tony@signal-edge.ai). Sign-up notices go here.
 export const ownerAddress = user;
 
-export async function sendMail(msg: { to: string; subject: string; html: string; text: string; replyTo?: string }) {
-  if (!mailConfigured) return false;
-  const transport = nodemailer.createTransport({
+export type MailMessage = {
+  to: string;
+  subject: string;
+  html: string;
+  text: string;
+  replyTo?: string;
+  headers?: Record<string, string>;
+};
+
+function transport(pool: boolean) {
+  return nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
     secure: true,
     auth: { user, pass },
     connectionTimeout: 10_000,
     socketTimeout: 15_000,
+    ...(pool ? { pool: true, maxConnections: 1 } : {}),
   });
-  await transport.sendMail({ from: { name: "Signal-Edge AI", address: user }, replyTo: user, ...msg });
+}
+
+const from = (name: string) => ({ name, address: user });
+
+export async function sendMail(msg: MailMessage) {
+  if (!mailConfigured) return false;
+  await transport(false).sendMail({ from: from("Signal-Edge AI"), replyTo: user, ...msg });
   return true;
+}
+
+// For sending many emails in one go (Clear Signal): one connection, reused, closed at the end.
+export function openMailer(fromName: string) {
+  if (!mailConfigured) return null;
+  const t = transport(true);
+  return {
+    send: (msg: MailMessage) => t.sendMail({ from: from(fromName), replyTo: user, ...msg }),
+    close: () => t.close(),
+  };
 }

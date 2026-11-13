@@ -1,0 +1,47 @@
+{
+  "number": "001",
+  "audience": "test",
+  "subject": "Clear Signal 001: ChatGPT now works with your iPhone mail and calendar",
+  "preheader": "One change worth knowing, one prompt to try today, and four quick hits. Five minutes.",
+  "hello": "AI can feel like a lot. Clear Signal keeps it simple: one change worth knowing, one prompt you can use today, and a few quick hits. Five minutes, then back to your clients.",
+  "oneThing": {
+    "title": "ChatGPT now works with your iPhone mail and calendar",
+    "points": [
+      {
+        "label": "What it is",
+        "text": "If your day runs on iCloud, you can now connect ChatGPT to your iCloud Mail and Calendar. It can find an email, draft a reply, and add or move appointments when you ask."
+      },
+      {
+        "label": "Try this",
+        "text": "Ask: \"What showings do I have Thursday, and which buyers haven't heard from me this week?\""
+      },
+      {
+        "label": "The fine print",
+        "text": "You switch it on yourself, with a special app password from Apple. It can send email, so read every message before it goes. It sees iCloud mail only, not Gmail or Outlook."
+      }
+    ]
+  },
+  "field": {
+    "question": "\"Is it safe to put client info into AI?\"",
+    "answer": "Treat a chat like a shared notepad, not a vault. Keep names, addresses and money details out unless your brokerage has approved the tool, and use a temporary chat for anything sensitive so it isn't saved."
+  },
+  "quickHits": [
+    {
+      "title": "Better flyers in Canva",
+      "text": "Canva's new image maker, Craft, plans the layout before it draws, so your headline lands where you want it. Label any edited listing photo."
+    },
+    {
+      "title": "Closing dates to your calendar",
+      "text": "Agenda Hero turns a pasted email, screenshot or PDF timeline into calendar events, and you check them before anything is added."
+    },
+    {
+      "title": "A lead tracker from your inbox",
+      "text": "The Neuron shared a Zapier recipe that pulls names, dates and next steps from labeled Gmail messages into a Google Sheet, then reminds you to follow up."
+    },
+    {
+      "title": "Watch for fake AI apps",
+      "text": "Knock-off ChatGPT and Claude desktop apps have been caught secretly running crypto-mining software. Download only from the company's own site or the official app store."
+    }
+  ],
+  "ps": "Running a team? We run a hands-on Team AI Workshop for brokerages. Just reply \"workshop\"."
+}

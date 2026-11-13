@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Nav } from "../../components/Nav";
 import { CopyPrompt } from "../../components/CopyPrompt";
 import { getIssue, getIssues, stepLabel } from "@/lib/clear-signal-issues";
+import { getIssueEmails } from "@/lib/clear-signal-emails";
 import { site } from "@/lib/site";
 
 type Props = { params: Promise<{ issue: string }> };
@@ -11,6 +12,8 @@ type Props = { params: Promise<{ issue: string }> };
 // Every issue page is built ahead of time; unknown numbers 404.
 export const dynamicParams = false;
 export function generateStaticParams() {
+  // Also checks every issue's email file, so a broken one fails the build instead of the send.
+  getIssueEmails();
   return getIssues().map((i) => ({ issue: i.number }));
 }
 
