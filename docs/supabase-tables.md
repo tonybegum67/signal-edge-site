@@ -33,3 +33,12 @@ Codes live in the `access_codes` table. Members can't see it; they type a code o
 - **See who used it:** `code_redemptions` lists each member and when they added it; `memberships` shows each member's plan and end date.
 
 A shareable link fills the code in for people: the site address plus `/account?code=CASEY-LESHER`. Anyone signed out signs in first and lands back on the page with the code ready.
+
+## Billing
+
+Card billing uses two tables from `supabase/migrations/20261113_stripe_billing.sql`:
+
+- **`billing_customers`:** each member's Stripe customer. Only the site's server can see it.
+- **`stripe_subscriptions`:** each card subscription, copied from Stripe whenever it changes. Members can see their own row. `active`, `trialing` and `past_due` mean Pro.
+
+Don't edit these by hand. Stripe is the record; the site copies it here. To change someone's card plan, do it in the Stripe Dashboard and the site follows.
