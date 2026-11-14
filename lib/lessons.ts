@@ -61,7 +61,7 @@ export const prompts = {
   cleanFile:
     "Before you file this, check it for client names, phone numbers, emails, home addresses or loan details. List anything you find and don't save the file until I've taken it out.",
   followUp:
-    "Using my About me and my follow-up examples, write a short check-in to a past buyer who closed about a year ago. Sound like me. Give me two versions.",
+    "Using my About me, the My voice section of the AGENTS.md in this folder, and my follow-up examples, write a short check-in to a past buyer who closed about a year ago. Give me two versions.",
   listingCopy:
     "Here are my notes and photos for a new listing. Using my About me and the listings I've saved, write the listing description in my voice, plus a short social post. Describe the home and the area, not who should live there. Keep it under my MLS character limit: [your MLS limit].",
   cmaPrep:
