@@ -52,6 +52,10 @@ export const prompts = {
     "Make a rulebook file for this folder called AGENTS.md. Put in: who I am in two lines from About me, our folder layout, how to name files (date first, like 2026-11-16 Showing notes Elm St), that client personal details never go in this folder, and that you ask me before you change or delete any file. Show it to me before you save it.",
   fillRulebook:
     "Update my AGENTS.md rulebook: fill in Who I am with two lines from About me, and update the folder list to match what we agreed. Show me the changes before you save them.",
+  voice:
+    "Here are 5 emails I wrote, with client names removed. Write a My voice section in my AGENTS.md: my tone, how I greet and sign off, and phrases I use. Show me the section before you save it.",
+  voiceReview:
+    "Read my sent emails from the past 60 days and update the My voice section in my AGENTS.md. Leave out client names and details. Show me the changes before you save them.",
   addRule: "From now on, file showing notes under Listings. Add that rule to my AGENTS.md rulebook and show me the line before you save it.",
   fileInbox: "File these where they belong, and tell me three things you learned about how I work.",
   cleanFile:
@@ -239,6 +243,17 @@ export const lessons: Lesson[] = [
           { kind: "prompt", label: "Add a rule", text: prompts.addRule },
         ],
       },
+      {
+        title: "Teach it your voice",
+        blocks: [
+          {
+            kind: "text",
+            text: "Pick 5 emails you sent that sound like you. Take out the client names, paste them into your Second Brain chat, and send this.",
+          },
+          { kind: "prompt", label: "Teach it your voice", text: prompts.voice },
+          { kind: "tip", text: "From now on, ask for a draft and it writes like you, not like a robot." },
+        ],
+      },
     ],
     tasks: [
       "Run the interview",
@@ -246,6 +261,7 @@ export const lessons: Lesson[] = [
       "Agree on a folder layout",
       "Make your rulebook",
       "Add one rule of your own",
+      "Teach it your voice from 5 emails",
     ],
   },
   {
@@ -434,6 +450,28 @@ export const lessons: Lesson[] = [
           },
         ],
       },
+      {
+        title: "Homework: your voice from 60 days of email",
+        blocks: [
+          {
+            kind: "text",
+            text: "Do this at home, and only after your team lead says it's OK to connect your work email and drives to ChatGPT.",
+          },
+          {
+            kind: "list",
+            items: [
+              "In ChatGPT's settings, connect your email (Gmail or Outlook) and your cloud drive (Google Drive or OneDrive).",
+              "Connecting doesn't change the one rule: client details still stay out of your Second Brain files.",
+              "Then open your Second Brain project and send the prompt below.",
+            ],
+          },
+          { kind: "prompt", label: "60-day voice review", text: prompts.voiceReview },
+          {
+            kind: "tip",
+            text: "If ChatGPT can't see your mail from inside the project, run the review in a regular chat, then paste the result into your project and ask it to update My voice in AGENTS.md.",
+          },
+        ],
+      },
     ],
     tasks: [
       "Block 15 minutes on Fridays",
@@ -441,6 +479,7 @@ export const lessons: Lesson[] = [
       "Add a rule when it gets something wrong",
       "Run the privacy check",
       "Switch on Clear Signal",
+      "Homework: run the 60-day voice review",
     ],
   },
 ];
@@ -469,6 +508,7 @@ export const promptPack: PackGroup[] = [
       { label: "Fill in the starter rulebook", text: prompts.fillRulebook },
       { label: "Make the rulebook from scratch", text: prompts.rulebook },
       { label: "Add a rule", text: prompts.addRule },
+      { label: "Teach it your voice", text: prompts.voice },
     ],
   },
   {
@@ -498,6 +538,7 @@ export const promptPack: PackGroup[] = [
       { label: "Friday review", text: prompts.weeklyReview },
       { label: "Add a rule", text: prompts.fixRule },
       { label: "Privacy check", text: prompts.privacyCheck },
+      { label: "Homework: 60-day voice review", text: prompts.voiceReview },
     ],
   },
 ];

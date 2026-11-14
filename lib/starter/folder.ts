@@ -15,6 +15,9 @@ ChatGPT reads this file as AGENTS.md. Claude reads it as CLAUDE.md. Both say the
 ## Who I am
 [Two lines about you. Your AI fills this in after the Step 2 interview.]
 
+## My voice
+[How I sound in writing: my tone, how I greet and sign off, and phrases I use. Your AI fills this in from five of your emails in Step 2.]
+
 ## Folders
 - About me: who I am, my market, my clients and how I like to sound
 - Listings: listing notes, descriptions and showing notes
@@ -31,7 +34,7 @@ Date first, then what it is. For example: 2026-11-16 Showing notes Elm St.
 - Ask me before you change, move or delete any file.
 - Nothing gets sent from here. I copy drafts into my own email or CRM.
 - When I say "file the Inbox", put each file where it belongs and tell me where it went.
-- Write in my voice, from About me. Keep it short and plain.
+- Write in my voice, from My voice in this file and About me. Keep it short and plain.
 - When I ask you to change a rule, update this file and show me the change before you save it.
 
 ## My own rules
