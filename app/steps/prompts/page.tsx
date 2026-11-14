@@ -5,7 +5,6 @@ import { Nav } from "../../components/Nav";
 import { PromptPack } from "../../components/PromptPack";
 import { createClient } from "@/lib/supabase/server";
 import { getPlan } from "@/lib/plan";
-import { rulebookName } from "@/lib/lessons";
 
 export const metadata: Metadata = { title: "Prompt pack" };
 
@@ -31,8 +30,8 @@ export default async function PromptPackPage() {
             <p className="eb">Signal-Edge Steps · Prompt pack</p>
             <h1 className="h2">Copy, paste, go</h1>
             <p className="lede">
-              Every ready-made prompt from the Steps, in order. They work the same in Claude and ChatGPT. The one
-              difference: the prompts name your rulebook {rulebookName.chatgpt}; in Claude it&apos;s {rulebookName.claude}.
+              Every ready-made prompt from the Steps, in order. They work the same in Claude and ChatGPT. Both use
+              your one rulebook, the AGENTS.md in your Second Brain folder.
             </p>
           </div>
           <PromptPack isPro={plan.plan === "pro"} />
