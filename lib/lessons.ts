@@ -37,8 +37,10 @@ export const stepSummaries: StepSummary[] = [
   { step: 5, title: "Keep it growing", body: "A weekly review and staying compliant as tools change", free: false, ready: true },
 ];
 
-// The rulebook is the file your AI reads every time it opens your folder. The name depends on the app.
-export const rulebookName: AppSteps = { claude: "CLAUDE.md", chatgpt: "AGENTS.md" };
+import { starterRulebook } from "./starter/folder";
+
+// The rulebook is the standing note your AI follows in every chat. Where it lives depends on the app.
+export const rulebookName: AppSteps = { claude: "the CLAUDE.md file", chatgpt: "the project's Instructions" };
 
 export const prompts = {
   firstLook: "What's in this folder, and what should we put here first?",
@@ -47,10 +49,10 @@ export const prompts = {
   fixAboutMe:
     "Read About me back to me in five short lines. Then change this: [what it got wrong]. Keep everything else.",
   rulebook:
-    "Make a rulebook file for this folder called [CLAUDE.md for Claude, AGENTS.md for ChatGPT]. Put in: who I am in two lines from About me, our folder layout, how to name files (date first, like 2026-11-16 Showing notes Elm St), that client personal details never go in this folder, and that you ask me before you change or delete any file. Show it to me before you save it.",
+    "Write a rulebook for my Second Brain. Put in: who I am in two lines from About me, our folder layout, how to name files (date first, like 2026-11-16 Showing notes Elm St), that client personal details never go in this folder, and that you ask me before you change or delete any file. Show it to me first. In ChatGPT I'll paste it into the project's Instructions; in Claude, save it as CLAUDE.md once I say OK.",
   fillRulebook:
-    "Read the rulebook in this folder. Fill in Who I am with two lines from About me, and update the folder list to match what we agreed. Show me the changes before you save them.",
-  addRule: "From now on, file showing notes under Listings. Add that to the rulebook.",
+    "Read my rulebook. Fill in Who I am with two lines from About me, and update the folder list to match what we agreed. Show me the whole updated rulebook so I can check it. In ChatGPT I'll paste it into the project's Instructions; in Claude, save it once I say OK.",
+  addRule: "From now on, file showing notes under Listings. Add that to my rulebook and show me the new line.",
   fileInbox: "File these where they belong, and tell me three things you learned about how I work.",
   cleanFile:
     "Before you file this, check it for client names, phone numbers, emails, home addresses or loan details. List anything you find and don't save the file until I've taken it out.",
@@ -82,7 +84,7 @@ export const lessons: Lesson[] = [
     minutes: 20,
     free: true,
     intro:
-      "Your second brain is one folder on your computer that your AI reads every time you open it. In this Step you make the folder, open it in your AI's desktop app, and set the one rule that keeps client data safe.",
+      "Your second brain is one folder on your computer that your AI can read. In this Step you make the folder, turn it into a ChatGPT project, give it a rulebook, and set the one rule that keeps client data safe.",
     parts: [
       {
         title: "Pick where it lives",
@@ -102,7 +104,7 @@ export const lessons: Lesson[] = [
         blocks: [
           {
             kind: "text",
-            text: "Download the starter folder, unzip it, and move the Second Brain folder where you picked. It already has the folders and a rulebook your AI reads, so there's nothing to set up by hand.",
+            text: "Download the starter folder, unzip it, and move the Second Brain folder where you picked. It already has the folders set up, so there's nothing to make by hand.",
           },
           {
             kind: "download",
@@ -114,25 +116,42 @@ export const lessons: Lesson[] = [
         ],
       },
       {
-        title: "Open it in your AI",
+        title: "Make it a project",
         blocks: [
           {
             kind: "text",
-            text: "Use the desktop app on a paid plan, not the website. The website can't open a folder on your computer; the desktop app can.",
+            text: "Use the ChatGPT desktop app on a paid plan, not the website. The website can't see a folder on your computer; the desktop app can.",
           },
           {
-            kind: "apps",
-            apps: {
-              claude:
-                "Download the Claude desktop app from claude.ai/download and sign in. Open the Code tab and choose your Second Brain folder.",
-              chatgpt:
-                "Download the ChatGPT desktop app from the ChatGPT website and sign in. Open Codex, choose Open a folder and pick your Second Brain folder.",
-            },
+            kind: "list",
+            items: [
+              "Create a project and name it Second Brain.",
+              "Under Source folders, click Add and pick your Second Brain folder.",
+              "Start every Second Brain chat inside this project, so it can see your folder.",
+            ],
           },
           {
             kind: "tip",
-            text: "Keep the setting that asks before it changes files. It's your seatbelt. When your AI asks to make or change a file, read the line, then say yes or no.",
+            text: "Using Claude instead? Download the Claude desktop app from claude.ai/download, open the Code tab and choose your Second Brain folder. Claude reads the rulebook from the CLAUDE.md file in the folder, so you can skip the next part.",
           },
+          {
+            kind: "tip",
+            text: "When your AI asks to make or change a file, read the line, then say yes or no. It's your seatbelt.",
+          },
+        ],
+      },
+      {
+        title: "Give it the rulebook",
+        blocks: [
+          {
+            kind: "text",
+            text: "The rulebook is a short note your AI follows in every chat in the project: who you are, where files go, how to name them, and what never goes in. Without it you'd repeat all that every time.",
+          },
+          {
+            kind: "text",
+            text: "Open your Second Brain project's Instructions and paste this in. You'll fill in the Who I am part in Step 2.",
+          },
+          { kind: "prompt", label: "Paste into Instructions", text: starterRulebook },
         ],
       },
       {
@@ -154,10 +173,10 @@ export const lessons: Lesson[] = [
     tasks: [
       "Choose laptop or cloud drive",
       "Get your Second Brain folder",
-      "Install your AI's desktop app",
-      "Open the folder in the app",
-      "Keep the ask-before-changing setting on",
-      "Ask your first question",
+      "Install the ChatGPT desktop app",
+      "Create the Second Brain project and add your folder",
+      "Paste the rulebook into Instructions",
+      "Ask your first question in the project",
     ],
   },
   {
@@ -203,12 +222,18 @@ export const lessons: Lesson[] = [
         blocks: [
           {
             kind: "text",
-            text: "The rulebook is one file your AI reads every time it opens your folder: how you name files, where things go, and what never goes in. Its name depends on your app.",
+            text: "The rulebook is the standing note your AI follows every time: how you name files, where things go, and what never goes in. Where it lives depends on your app.",
           },
-          { kind: "apps", apps: { claude: "Claude reads a file called CLAUDE.md.", chatgpt: "ChatGPT reads a file called AGENTS.md." } },
-          { kind: "text", text: "Using the starter folder? Your rulebook is already there. Have your AI fill in who you are." },
+          {
+            kind: "apps",
+            apps: {
+              claude: "Claude reads the CLAUDE.md file in your folder, and can update it for you.",
+              chatgpt: "ChatGPT follows your project's Instructions. When the rulebook changes, your AI shows you the new text and you paste it into Instructions.",
+            },
+          },
+          { kind: "text", text: "Pasted the starter rulebook in Step 1? Have your AI fill in who you are." },
           { kind: "prompt", label: "Fill in the starter rulebook", text: prompts.fillRulebook },
-          { kind: "text", text: "Started from scratch? Have your AI write one." },
+          { kind: "text", text: "No rulebook yet? Have your AI write one." },
           { kind: "prompt", label: "Make the rulebook", text: prompts.rulebook },
           { kind: "text", text: "Then add one rule of your own. You can add more any time, in plain words." },
           { kind: "prompt", label: "Add a rule", text: prompts.addRule },
@@ -424,11 +449,18 @@ export function getLesson(step: number) {
   return lessons.find((l) => l.step === step) ?? null;
 }
 
-// The prompt pack: every ready-made prompt, grouped by Step. The same words work in Claude and ChatGPT.
+// The prompt pack: every ready-made prompt, grouped by Step, plus the starter rulebook. The same words work in Claude and ChatGPT.
 export type PackGroup = { step: number; title: string; items: { label: string; text: string }[] };
 
 export const promptPack: PackGroup[] = [
-  { step: 1, title: "Set up the house", items: [{ label: "First look at your folder", text: prompts.firstLook }] },
+  {
+    step: 1,
+    title: "Set up the house",
+    items: [
+      { label: "Starter rulebook: paste into Instructions", text: starterRulebook },
+      { label: "First look at your folder", text: prompts.firstLook },
+    ],
+  },
   {
     step: 2,
     title: "Teach it who you are",

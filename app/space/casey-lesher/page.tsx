@@ -109,7 +109,7 @@ export default async function CaseySpacePage() {
             <h2 className="h2">Copy, paste, go</h2>
             <p className="lede">
               Every prompt from the workshop, in order. They work the same in Claude and ChatGPT. The one difference:
-              your rulebook is called {rulebookName.claude} in Claude and {rulebookName.chatgpt} in ChatGPT.
+              your rulebook lives in {rulebookName.chatgpt} in ChatGPT and in {rulebookName.claude} in Claude.
             </p>
           </div>
 

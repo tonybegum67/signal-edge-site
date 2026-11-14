@@ -1,16 +1,17 @@
 import { makeZip, type ZipEntry } from "../zip";
 
-// The Second Brain starter folder: the folder layout from Step 2, a rulebook for each app,
-// and a Start here note. One download, nothing to install.
+// The Second Brain starter folder: the folder layout from Step 2, the rulebook and a Start here note.
+// In ChatGPT the rulebook goes in the project's Instructions (Step 1 shows it ready to copy).
+// The CLAUDE.md and AGENTS.md copies are for Claude's Code tab and, as a bonus, Codex.
 
 const ROOT = "Second Brain/";
 
 export const starterFolders = ["About me", "Listings", "Scripts and templates", "Market notes", "Daily notes", "Inbox"];
 
-const rulebook = `# My Second Brain rulebook
+export const starterRulebook = `# My Second Brain rulebook
 
-This folder is my second brain. Read this file and the About me folder before you help me.
-Claude reads this file as CLAUDE.md. ChatGPT reads it as AGENTS.md. Both say the same thing.
+This folder is my second brain. Follow these rules and read the About me folder before you help me.
+(In ChatGPT these rules live in the project's Instructions. In Claude they live in the CLAUDE.md file.)
 
 ## Who I am
 [Two lines about you. Your AI fills this in after the Step 2 interview.]
@@ -44,15 +45,19 @@ This is your Second Brain starter folder from Signal-Edge Steps.
 1. Unzip it, then move the Second Brain folder where you want it to live:
    your laptop, or a cloud drive like Google Drive, Dropbox or OneDrive.
 
-2. Open it in your AI's desktop app (not the website):
-   - Claude: open the Code tab and choose this Second Brain folder.
-   - ChatGPT: open Codex, choose Open a folder and pick this Second Brain folder.
-   Keep the setting that asks before it changes files.
+2. Make it a project in the ChatGPT desktop app (not the website):
+   - Create a project and name it Second Brain.
+   - Under Source folders, click Add and pick this Second Brain folder.
+   - Open the project's Instructions and paste in the starter rulebook.
+     Copy it from Step 1 at signal-edge.ai, under My Steps.
+   Using Claude instead? Open the Code tab and choose this folder.
+   Claude reads the rulebook from CLAUDE.md, so there's nothing to paste.
 
-3. Ask your AI: "What's in this folder, and what should we put here first?"
+3. Start a chat in the project and ask:
+   "What's in this folder, and what should we put here first?"
 
-The two rulebook files say the same thing. Claude reads CLAUDE.md and ChatGPT reads AGENTS.md,
-so you can keep both, or delete the one for the app you don't use.
+CLAUDE.md and AGENTS.md are the same rulebook as a file, for Claude and for Codex.
+You can leave them, or delete the ones for apps you don't use.
 
 Client personal details never go in this folder. They stay in your CRM.
 
@@ -63,8 +68,8 @@ export function starterFolderZip() {
   const entries: ZipEntry[] = [
     { name: ROOT },
     { name: `${ROOT}Start here.txt`, content: startHere.replace(/\n/g, "\r\n") },
-    { name: `${ROOT}CLAUDE.md`, content: rulebook },
-    { name: `${ROOT}AGENTS.md`, content: rulebook },
+    { name: `${ROOT}CLAUDE.md`, content: starterRulebook },
+    { name: `${ROOT}AGENTS.md`, content: starterRulebook },
     ...starterFolders.map((f) => ({ name: `${ROOT}${f}/` })),
   ];
   return makeZip(entries);
