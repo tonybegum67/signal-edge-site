@@ -43,7 +43,7 @@ export const rulebookName: AppSteps = { claude: "CLAUDE.md", chatgpt: "AGENTS.md
 
 export const prompts = {
   firstLook:
-    "Read my AGENTS.md rulebook first. Then tell me what's in this folder, and what we should put here first.",
+    "Read the AGENTS.md rulebook in this folder first. Then tell me what's in this folder, and what we should put here first.",
   interview:
     "Interview me so you can help with my real estate business. Ask one question at a time and wait for my answer. Cover where I work and what I sell, the clients I serve best, how I find business and who's in my sphere, how I like to sound in writing, the jobs that eat up my week, and what I want help with first. Don't ask for client names or personal details. When we're done, write it up as a file called About me and save it in the About me folder if there is one. Then suggest a folder layout for this Second Brain and wait for my OK before you make anything.",
   fixAboutMe:
@@ -51,12 +51,12 @@ export const prompts = {
   rulebook:
     "Make a rulebook file for this folder called AGENTS.md. Put in: who I am in two lines from About me, our folder layout, how to name files (date first, like 2026-11-16 Showing notes Elm St), that client personal details never go in this folder, and that you ask me before you change or delete any file. Show it to me before you save it.",
   fillRulebook:
-    "Update my AGENTS.md rulebook: fill in Who I am with two lines from About me, and update the folder list to match what we agreed. Show me the changes before you save them.",
+    "Update the AGENTS.md rulebook in this folder: fill in Who I am with two lines from About me, and update the folder list to match what we agreed. Show me the changes before you save them.",
   voice:
-    "Here are 5 emails I wrote, with client names removed. Write a My voice section in my AGENTS.md: my tone, how I greet and sign off, and phrases I use. Show me the section before you save it.",
+    "Here are 5 emails I wrote, with client names removed. Write a My voice section in the AGENTS.md in this folder: my tone, how I greet and sign off, and phrases I use. Show me the section before you save it.",
   voiceReview:
-    "Read my sent emails from the past 60 days and update the My voice section in my AGENTS.md. Leave out client names and details. Show me the changes before you save them.",
-  addRule: "From now on, file showing notes under Listings. Add that rule to my AGENTS.md rulebook and show me the line before you save it.",
+    "Read my sent emails from the past 60 days and update the My voice section in the AGENTS.md in this folder. Leave out client names and details. Show me the changes before you save them.",
+  addRule: "From now on, file showing notes under Listings. Add that rule to the AGENTS.md rulebook in this folder and show me the line before you save it.",
   fileInbox: "File these where they belong, and tell me three things you learned about how I work.",
   cleanFile:
     "Before you file this, check it for client names, phone numbers, emails, home addresses or loan details. List anything you find and don't save the file until I've taken it out.",
@@ -73,11 +73,11 @@ export const prompts = {
   savePrompt:
     "Save the prompt I just used in Scripts and templates, named [a short name], so I can ask for it by name next time.",
   fixRule:
-    "You got this wrong: [what was off]. Add a rule to my AGENTS.md rulebook so it doesn't happen again, and show me the rule before you save it.",
+    "You got this wrong: [what was off]. Add a rule to the AGENTS.md rulebook in this folder so it doesn't happen again, and show me the rule before you save it.",
   privacyCheck:
     "Scan my whole Second Brain for anything that shouldn't be here: client phone numbers, home addresses, ID, bank or loan details, signed contracts or passwords. List what you find and where. Don't change or delete anything until I tell you to.",
   weeklyReview:
-    "Weekly review: file everything in Inbox, tell me what's new this week, and suggest one rule to add to my AGENTS.md rulebook. Add it once I say OK.",
+    "Weekly review: file everything in Inbox, tell me what's new this week, and suggest one rule to add to the AGENTS.md rulebook in this folder. Add it once I say OK.",
 } as const;
 
 export const lessons: Lesson[] = [
@@ -154,7 +154,7 @@ export const lessons: Lesson[] = [
           },
           {
             kind: "tip",
-            text: "Never edit it by hand unless you want to. Ask ChatGPT to update AGENTS.md and it changes the file for you. You'll fill in Who I am in Step 2.",
+            text: "Never edit it by hand unless you want to. Ask ChatGPT to update the AGENTS.md in this folder and it changes that file for you, never one anywhere else. You'll fill in Who I am in Step 2.",
           },
         ],
       },
@@ -232,7 +232,7 @@ export const lessons: Lesson[] = [
             kind: "apps",
             apps: {
               claude: "Claude reads CLAUDE.md on its own. Swap CLAUDE.md in wherever a prompt says AGENTS.md.",
-              chatgpt: "ChatGPT uses AGENTS.md. Start each new chat with: Read my AGENTS.md rulebook first.",
+              chatgpt: "ChatGPT uses AGENTS.md. Start each new chat with: Read the AGENTS.md rulebook in this folder first.",
             },
           },
           { kind: "text", text: "Using the starter folder? Your rulebook is already there. After the interview, have your AI fill in who you are." },
@@ -468,7 +468,7 @@ export const lessons: Lesson[] = [
           { kind: "prompt", label: "60-day voice review", text: prompts.voiceReview },
           {
             kind: "tip",
-            text: "If ChatGPT can't see your mail from inside the project, run the review in a regular chat, then paste the result into your project and ask it to update My voice in AGENTS.md.",
+            text: "If ChatGPT can't see your mail from inside the project, run the review in a regular chat, then paste the result into your project and ask it to update My voice in the AGENTS.md in this folder.",
           },
         ],
       },

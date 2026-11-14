@@ -36,6 +36,7 @@ Date first, then what it is. For example: 2026-11-16 Showing notes Elm St.
 - When I say "file the Inbox", put each file where it belongs and tell me where it went.
 - Write in my voice, from My voice in this file and About me. Keep it short and plain.
 - When I ask you to change a rule, update this file and show me the change before you save it.
+- Only edit the AGENTS.md or CLAUDE.md in this folder. Never change any other AGENTS.md, CLAUDE.md or settings file on this computer.
 
 ## My own rules
 - [Add a rule any time, in plain words. For example: file showing notes under Listings.]
@@ -56,8 +57,8 @@ This is your Second Brain starter folder from Signal-Edge Steps.
    Using Claude instead? Open the Code tab and choose this folder.
 
 3. Start a chat in the project and send:
-   "Read my AGENTS.md rulebook first. Then tell me what's in this folder,
-   and what we should put here first."
+   "Read the AGENTS.md rulebook in this folder first. Then tell me what's
+   in this folder, and what we should put here first."
 
 AGENTS.md is your rulebook for ChatGPT. CLAUDE.md is the same rulebook for Claude.
 Ask your AI to update it any time; you don't have to edit it by hand.
