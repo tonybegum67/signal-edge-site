@@ -4,8 +4,10 @@ import { redirect } from "next/navigation";
 import { Nav } from "../components/Nav";
 import { createClient } from "@/lib/supabase/server";
 import { site } from "@/lib/site";
-import { formatDay, getPlan } from "@/lib/plan";
+import { formatDay, getPlan, type CardPlan } from "@/lib/plan";
+import { billingReady, proPrices } from "@/lib/stripe";
 import { setClearSignal } from "./actions";
+import { openPortal, startCheckout } from "./billing-actions";
 import { CodeForm } from "./CodeForm";
 
 export const metadata: Metadata = { title: "My account" };
@@ -15,8 +17,20 @@ export const dynamic = "force-dynamic";
 
 type Subscription = "on" | "off" | "unknown";
 
-export default async function AccountPage({ searchParams }: { searchParams: Promise<{ code?: string }> }) {
-  const { code: codeParam } = await searchParams;
+const BILLING_NOTES: Record<string, string> = {
+  success: "You're on Pro. Thanks for backing Signal-Edge! It can take a few seconds to show here, so refresh if it hasn't.",
+  cancelled: "No problem. Nothing was charged.",
+  error: "Something went wrong on our side and nothing was charged. Try again in a minute.",
+  off: "Paying by card isn't switched on yet. Check back soon.",
+};
+
+export default async function AccountPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ code?: string; billing?: string }>;
+}) {
+  const { code: codeParam, billing: billingParam } = await searchParams;
+  const billingNote = typeof billingParam === "string" ? BILLING_NOTES[billingParam] : undefined;
   const initialCode = typeof codeParam === "string" ? codeParam.slice(0, 40) : "";
   const supabase = await createClient();
   const user = supabase ? (await supabase.auth.getUser()).data.user : null;
@@ -36,6 +50,8 @@ export default async function AccountPage({ searchParams }: { searchParams: Prom
   const memberSince = formatDay(user.created_at);
   const plan = await getPlan(supabase);
   const isPro = plan.plan === "pro";
+  const card = plan.card ?? null;
+  const cardLine = card ? describeCard(card) : null;
 
   return (
     <>
@@ -90,7 +106,7 @@ export default async function AccountPage({ searchParams }: { searchParams: Prom
                 <dt>Plan</dt>
                 <dd>
                   {isPro
-                    ? `Pro${plan.endsAt ? ` until ${formatDay(plan.endsAt)}` : ""}: every Step and ${site.newsletterName}`
+                    ? `Pro${!card && plan.endsAt ? ` until ${formatDay(plan.endsAt)}` : ""}: every Step and ${site.newsletterName}`
                     : `Free: Step 1 and ${site.newsletterName}`}
                 </dd>
                 <dt>Progress</dt>
@@ -115,11 +131,55 @@ export default async function AccountPage({ searchParams }: { searchParams: Prom
                   <CodeForm initialCode={initialCode} />
                 </>
               )}
-              <p className="sub">Paying for Pro by card opens soon. You&apos;ll manage billing right here.</p>
+              {billingNote && <p className="sub">{billingNote}</p>}
+              {plan.failed ? null : card ? (
+                <>
+                  <p className="sub">{cardLine}</p>
+                  <form action={openPortal}>
+                    <button className="btn" type="submit">
+                      Manage billing
+                    </button>
+                  </form>
+                </>
+              ) : billingReady ? (
+                <>
+                  <p className="sub">
+                    {plan.codeEndsAt
+                      ? `Want to keep Pro after ${formatDay(plan.codeEndsAt)}? Add a card now and you won't be charged until then. Cancel any time before and you pay nothing.`
+                      : "Pay for Pro by card. Cancel any time from this page."}
+                  </p>
+                  <div className="billing-choice">
+                    <form action={startCheckout}>
+                      <input type="hidden" name="plan" value="monthly" />
+                      <button className="btn p" type="submit">
+                        Pro, {proPrices.monthly.label}
+                      </button>
+                    </form>
+                    <form action={startCheckout}>
+                      <input type="hidden" name="plan" value="annual" />
+                      <button className="btn" type="submit">
+                        Pro, {proPrices.annual.label}
+                      </button>
+                    </form>
+                  </div>
+                </>
+              ) : (
+                <p className="sub">Paying for Pro by card opens soon. You&apos;ll manage billing right here.</p>
+              )}
             </section>
           </div>
         </div>
       </main>
     </>
   );
+}
+
+// One plain line about the member's card plan.
+function describeCard(card: CardPlan) {
+  const price = card.interval ? proPrices[card.interval].label : "Pro";
+  if (card.status === "past_due") return "Your last payment didn't go through. Update your card in billing to keep Pro.";
+  if (card.cancelAtPeriodEnd && card.periodEnd) return `Your card plan ends on ${formatDay(card.periodEnd)}. You won't be charged again.`;
+  if (card.status === "trialing" && card.trialEnd) return `Pro by card, ${price}. Your first charge is on ${formatDay(card.trialEnd)}.`;
+  if (card.periodEnd) return `Pro by card, ${price}. Next charge on ${formatDay(card.periodEnd)}.`;
+  return `Pro by card, ${price}.`;
 }
