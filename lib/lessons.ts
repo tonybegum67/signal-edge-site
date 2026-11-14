@@ -459,7 +459,7 @@ export const lessons: Lesson[] = [
           {
             kind: "list",
             items: [
-              "In ChatGPT's settings, connect your email (Gmail or Outlook) and your cloud drive (Google Drive or OneDrive).",
+              "In ChatGPT, open Plugins and add your email and cloud drive, like Gmail and Google Drive.",
               "Connecting doesn't change the one rule: client details still stay out of your Second Brain files.",
               "Then open your Second Brain project and send the prompt below.",
             ],
