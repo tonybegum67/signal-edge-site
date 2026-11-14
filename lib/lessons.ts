@@ -37,9 +37,8 @@ export const stepSummaries: StepSummary[] = [
   { step: 5, title: "Keep it growing", body: "A weekly review and staying compliant as tools change", free: false, ready: true },
 ];
 
-// The rulebook is a file in the Second Brain folder that your AI reads and keeps up to date.
-// The prompts name AGENTS.md (ChatGPT); Claude users swap in CLAUDE.md.
-export const rulebookName: AppSteps = { claude: "CLAUDE.md", chatgpt: "AGENTS.md" };
+// The rulebook is one file, AGENTS.md, in the Second Brain folder. ChatGPT and Claude both use it;
+// the starter CLAUDE.md only points Claude to it.
 
 export const prompts = {
   firstLook:
@@ -137,7 +136,7 @@ export const lessons: Lesson[] = [
           },
           {
             kind: "tip",
-            text: "Using Claude instead? Download the Claude desktop app from claude.ai/download, open the Code tab and choose your Second Brain folder. Claude reads the CLAUDE.md rulebook in the folder on its own.",
+            text: "Using Claude instead? Download the Claude desktop app from claude.ai/download, open the Code tab and choose your Second Brain folder. Claude reads the same AGENTS.md rulebook, through the small CLAUDE.md file next to it.",
           },
           {
             kind: "tip",
@@ -231,7 +230,7 @@ export const lessons: Lesson[] = [
           {
             kind: "apps",
             apps: {
-              claude: "Claude reads CLAUDE.md on its own. Swap CLAUDE.md in wherever a prompt says AGENTS.md.",
+              claude: "Claude uses the same AGENTS.md. The starter folder's CLAUDE.md points Claude to it, so the prompts work as they are.",
               chatgpt: "ChatGPT uses AGENTS.md. Start each new chat with: Read the AGENTS.md rulebook in this folder first.",
             },
           },

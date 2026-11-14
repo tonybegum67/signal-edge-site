@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { Nav } from "../../components/Nav";
 import { PromptPack } from "../../components/PromptPack";
 import { createClient } from "@/lib/supabase/server";
-import { rulebookName } from "@/lib/lessons";
 import { caseySpace, hasSpace } from "@/lib/space";
 
 export const metadata: Metadata = { title: "Casey Lesher Real Estate", robots: { index: false, follow: false } };
@@ -108,8 +107,8 @@ export default async function CaseySpacePage() {
             <p className="eb">Prompt pack</p>
             <h2 className="h2">Copy, paste, go</h2>
             <p className="lede">
-              Every prompt from the workshop, in order. They work the same in Claude and ChatGPT. The one difference:
-              the prompts name your rulebook {rulebookName.chatgpt}; in Claude it&apos;s {rulebookName.claude}.
+              Every prompt from the workshop, in order. They work the same in Claude and ChatGPT. Both use your one
+              rulebook, the AGENTS.md in your Second Brain folder.
             </p>
           </div>
 

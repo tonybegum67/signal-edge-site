@@ -1,7 +1,7 @@
 import { makeZip, type ZipEntry } from "../zip";
 
-// The Second Brain starter folder: the folder layout from Step 2, the rulebook as AGENTS.md (ChatGPT)
-// and CLAUDE.md (Claude), and a Start here note. One download, nothing to install.
+// The Second Brain starter folder: the folder layout from Step 2, one rulebook as AGENTS.md (ChatGPT and Claude),
+// a CLAUDE.md that only points Claude to it, and a Start here note. One download, nothing to install.
 
 const ROOT = "Second Brain/";
 
@@ -10,7 +10,7 @@ export const starterFolders = ["About me", "Listings", "Scripts and templates", 
 export const starterRulebook = `# My Second Brain rulebook
 
 This folder is my second brain. Follow these rules and read the About me folder before you help me.
-ChatGPT reads this file as AGENTS.md. Claude reads it as CLAUDE.md. Both say the same thing.
+This AGENTS.md is the one rulebook for this folder, for ChatGPT and Claude alike.
 
 ## Who I am
 [Two lines about you. Your AI fills this in after the Step 2 interview.]
@@ -36,10 +36,17 @@ Date first, then what it is. For example: 2026-11-16 Showing notes Elm St.
 - When I say "file the Inbox", put each file where it belongs and tell me where it went.
 - Write in my voice, from My voice in this file and About me. Keep it short and plain.
 - When I ask you to change a rule, update this file and show me the change before you save it.
-- Only edit the AGENTS.md or CLAUDE.md in this folder. Never change any other AGENTS.md, CLAUDE.md or settings file on this computer.
+- The only file you edit for rules is this AGENTS.md in this folder. Never change CLAUDE.md, or any other AGENTS.md, CLAUDE.md or settings file on this computer.
 
 ## My own rules
 - [Add a rule any time, in plain words. For example: file showing notes under Listings.]
+`;
+
+// Claude reads CLAUDE.md on its own; this pulls in AGENTS.md so there's only one rulebook to keep.
+export const claudePointer = `@AGENTS.md
+
+The rulebook for this folder is the AGENTS.md file in this folder. Read it and follow it.
+When I ask you to change a rule, edit AGENTS.md, not this file.
 `;
 
 const startHere = `START HERE
@@ -60,7 +67,7 @@ This is your Second Brain starter folder from Signal-Edge Steps.
    "Read the AGENTS.md rulebook in this folder first. Then tell me what's
    in this folder, and what we should put here first."
 
-AGENTS.md is your rulebook for ChatGPT. CLAUDE.md is the same rulebook for Claude.
+AGENTS.md is your one rulebook. CLAUDE.md only points Claude to it, so leave it be.
 Ask your AI to update it any time; you don't have to edit it by hand.
 
 Client personal details never go in this folder. They stay in your CRM.
@@ -72,7 +79,7 @@ export function starterFolderZip() {
   const entries: ZipEntry[] = [
     { name: ROOT },
     { name: `${ROOT}Start here.txt`, content: startHere.replace(/\n/g, "\r\n") },
-    { name: `${ROOT}CLAUDE.md`, content: starterRulebook },
+    { name: `${ROOT}CLAUDE.md`, content: claudePointer },
     { name: `${ROOT}AGENTS.md`, content: starterRulebook },
     ...starterFolders.map((f) => ({ name: `${ROOT}${f}/` })),
   ];
