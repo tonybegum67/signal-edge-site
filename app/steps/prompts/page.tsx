@@ -32,7 +32,7 @@ export default async function PromptPackPage() {
             <h1 className="h2">Copy, paste, go</h1>
             <p className="lede">
               Every ready-made prompt from the Steps, in order. They work the same in Claude and ChatGPT. The one
-              difference: your rulebook lives in {rulebookName.chatgpt} in ChatGPT and in {rulebookName.claude} in Claude.
+              difference: the prompts name your rulebook {rulebookName.chatgpt}; in Claude it&apos;s {rulebookName.claude}.
             </p>
           </div>
           <PromptPack isPro={plan.plan === "pro"} />

@@ -1,8 +1,7 @@
 import { makeZip, type ZipEntry } from "../zip";
 
-// The Second Brain starter folder: the folder layout from Step 2, the rulebook and a Start here note.
-// In ChatGPT the rulebook goes in the project's Instructions (Step 1 shows it ready to copy).
-// The CLAUDE.md and AGENTS.md copies are for Claude's Code tab and, as a bonus, Codex.
+// The Second Brain starter folder: the folder layout from Step 2, the rulebook as AGENTS.md (ChatGPT)
+// and CLAUDE.md (Claude), and a Start here note. One download, nothing to install.
 
 const ROOT = "Second Brain/";
 
@@ -11,7 +10,7 @@ export const starterFolders = ["About me", "Listings", "Scripts and templates", 
 export const starterRulebook = `# My Second Brain rulebook
 
 This folder is my second brain. Follow these rules and read the About me folder before you help me.
-(In ChatGPT these rules live in the project's Instructions. In Claude they live in the CLAUDE.md file.)
+ChatGPT reads this file as AGENTS.md. Claude reads it as CLAUDE.md. Both say the same thing.
 
 ## Who I am
 [Two lines about you. Your AI fills this in after the Step 2 interview.]
@@ -33,6 +32,7 @@ Date first, then what it is. For example: 2026-11-16 Showing notes Elm St.
 - Nothing gets sent from here. I copy drafts into my own email or CRM.
 - When I say "file the Inbox", put each file where it belongs and tell me where it went.
 - Write in my voice, from About me. Keep it short and plain.
+- When I ask you to change a rule, update this file and show me the change before you save it.
 
 ## My own rules
 - [Add a rule any time, in plain words. For example: file showing notes under Listings.]
@@ -48,16 +48,16 @@ This is your Second Brain starter folder from Signal-Edge Steps.
 2. Make it a project in the ChatGPT desktop app (not the website):
    - Create a project and name it Second Brain.
    - Under Source folders, click Add and pick this Second Brain folder.
-   - Open the project's Instructions and paste in the starter rulebook.
-     Copy it from Step 1 at signal-edge.ai, under My Steps.
+   Stay in the desktop app. A project with a folder lives on your laptop
+   and doesn't show up on the ChatGPT website.
    Using Claude instead? Open the Code tab and choose this folder.
-   Claude reads the rulebook from CLAUDE.md, so there's nothing to paste.
 
-3. Start a chat in the project and ask:
-   "What's in this folder, and what should we put here first?"
+3. Start a chat in the project and send:
+   "Read my AGENTS.md rulebook first. Then tell me what's in this folder,
+   and what we should put here first."
 
-CLAUDE.md and AGENTS.md are the same rulebook as a file, for Claude and for Codex.
-You can leave them, or delete the ones for apps you don't use.
+AGENTS.md is your rulebook for ChatGPT. CLAUDE.md is the same rulebook for Claude.
+Ask your AI to update it any time; you don't have to edit it by hand.
 
 Client personal details never go in this folder. They stay in your CRM.
 
