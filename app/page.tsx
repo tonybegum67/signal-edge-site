@@ -14,9 +14,9 @@ const newsWave = { base: 0.6, calm: 0.6, amp: 0.35, peak: 0.45, layers: 1, speed
 const stepsModules = [
   { n: "STEP 1", title: "Set up the house", body: "Where your brain lives and the line between personal notes and client data" },
   { n: "STEP 2", title: "Teach it who you are", body: "A guided interview on your business, market, sphere and voice" },
-  { n: "STEP 3", title: "Feed it your business", body: "Listings, past deals and scripts, with client details stripped out first" },
-  { n: "STEP 4", title: "Put it to work", body: "Morning brief, listing copy, follow-ups and CMA prep" },
-  { n: "STEP 5", title: "Keep it growing", body: "A weekly review and staying compliant as tools change" },
+  { n: "STEP 3", title: "Point it at your business", body: "Your AI finds your best work in Drive and email, with client details kept out" },
+  { n: "STEP 4", title: "Put it to work", body: "A follow-up in your voice, a Daily Briefing, listing copy and CMA prep" },
+  { n: "STEP 5", title: "Keep it growing", body: "A Daily Briefing every morning, a Friday review and staying safe" },
 ];
 
 export default function Home() {

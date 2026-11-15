@@ -32,9 +32,9 @@ export type StepSummary = { step: number; title: string; body: string; free: boo
 export const stepSummaries: StepSummary[] = [
   { step: 1, title: "Set up the house", body: "Where your brain lives and the line between personal notes and client data", free: true, ready: true },
   { step: 2, title: "Teach it who you are", body: "A guided interview on your business, market, sphere and voice", free: false, ready: true },
-  { step: 3, title: "Feed it your business", body: "Listings, past deals and scripts, with client details stripped out first", free: false, ready: true },
-  { step: 4, title: "Put it to work", body: "Morning brief, listing copy, follow-ups and CMA prep", free: false, ready: true },
-  { step: 5, title: "Keep it growing", body: "A weekly review and staying compliant as tools change", free: false, ready: true },
+  { step: 3, title: "Point it at your business", body: "Your AI finds your best work in Drive and email, with client details kept out", free: false, ready: true },
+  { step: 4, title: "Put it to work", body: "A follow-up in your voice, a Daily Briefing, listing copy and CMA prep", free: false, ready: true },
+  { step: 5, title: "Keep it growing", body: "A Daily Briefing every morning, a Friday review and staying safe", free: false, ready: true },
 ];
 
 // The rulebook is one file, AGENTS.md, in the Second Brain folder. ChatGPT and Claude both use it;
@@ -42,41 +42,45 @@ export const stepSummaries: StepSummary[] = [
 
 export const prompts = {
   firstLook:
-    "Read the AGENTS.md rulebook in this folder first. Then tell me what's in this folder, and what we should put here first.",
+    "Read the AGENTS.md rulebook in this folder first. Then tell me what's in this folder, and what we should put here first. Don't create or change anything yet.",
   interview:
-    "Interview me so you can help with my real estate business. Ask one question at a time and wait for my answer. Cover where I work and what I sell, the clients I serve best, how I find business and who's in my sphere, how I like to sound in writing, the jobs that eat up my week, and what I want help with first. Don't ask for client names or personal details. When we're done, write it up as a file called About me and save it in the About me folder if there is one. Then suggest a folder layout for this Second Brain and wait for my OK before you make anything.",
+    "Interview me so you can help with my real estate business. Ask one question at a time and wait for my answer, about 8 questions in all. Cover where I work and what I sell, the clients I serve best, how I find business and who's in my sphere, the jobs that eat up my week, and what I want help with first. Don't ask for client names or personal details. When we're done, write it up as a file named with today's date and \"About me\", show it to me, and save it in the About me folder once I say OK. Then suggest any changes to the folders and wait for my OK before you change anything.",
   fixAboutMe:
     "Read About me back to me in five short lines. Then change this: [what it got wrong]. Keep everything else.",
-  rulebook:
-    "Make a rulebook file for this folder called AGENTS.md. Put in: who I am in two lines from About me, our folder layout, how to name files (date first, like 2026-11-16 Showing notes Elm St), that client personal details never go in this folder, and that you ask me before you change or delete any file. Show it to me before you save it.",
   fillRulebook:
     "Update the AGENTS.md rulebook in this folder: fill in Who I am with two lines from About me, and update the folder list to match what we agreed. Show me the changes before you save them.",
-  voice:
-    "Here are 5 emails I wrote, with client names removed. Write a My voice section in the AGENTS.md in this folder: my tone, how I greet and sign off, and phrases I use. Show me the section before you save it.",
-  voiceReview:
-    "Read my sent emails from the past 60 days and update the My voice section in the AGENTS.md in this folder. Leave out client names and details. Show me the changes before you save them.",
   addRule: "From now on, file showing notes under Listings. Add that rule to the AGENTS.md rulebook in this folder and show me the line before you save it.",
-  fileInbox: "File these where they belong, and tell me three things you learned about how I work.",
+  voiceConnected:
+    "Read my 10 most recent sent emails and write a My voice section in the AGENTS.md rulebook in this folder. Show me before you save it.",
+  voice:
+    "Here are 5 emails I wrote, with client names removed. Write a My voice section in the AGENTS.md rulebook in this folder: my tone, how I greet and sign off, and phrases I use. Show me before you save it.",
+  bestWork:
+    "Search my Google Drive and sent email from the last 90 days for my best work: a listing description, my best follow-ups, my consult script, a CMA and my bio, up to 2 of each. Show me what you found. For each one I pick, write a short note in the right folder on what makes it work, with client names and details taken out. Then add a \"Where my stuff lives\" section to the AGENTS.md rulebook in this folder. Show me before you save anything, and tell me three things you learned about how I work.",
+  bestWorkFull:
+    "Search my Google Drive and sent email for my best work: a listing description, my best follow-ups, my consult script, a CMA and my bio. Show me what you found. For each one I pick, write a short note in the right folder on what makes it work, with client names and details taken out. Then add a \"Where my stuff lives\" section to the AGENTS.md rulebook in this folder. Show me before you save anything, and tell me three things you learned about how I work.",
   cleanFile:
     "Before you file this, check it for client names, phone numbers, emails, home addresses or loan details. List anything you find and don't save the file until I've taken it out.",
+  fileInbox: "File these where they belong, and tell me three things you learned about how I work.",
   followUp:
-    "Using my About me, the My voice section of the AGENTS.md in this folder, and my follow-up examples, write a short check-in to a past buyer who closed about a year ago. Give me two versions.",
+    "Using my About me, Where my stuff lives and the My voice section of the AGENTS.md in this folder, and my follow-up examples, write a short check-in to this person: [describe them in a sentence, no name]. Keep it under 80 words and end with one clear next step. Give me two versions, then offer to save the one I pick in Scripts and templates.",
   listingCopy:
-    "Here are my notes and photos for a new listing. Using my About me and the listings I've saved, write the listing description in my voice, plus a short social post. Describe the home and the area, not who should live there. Keep it under my MLS character limit: [your MLS limit].",
+    "Here are my notes and photos for a new listing. Using my About me, Where my stuff lives, the My voice section of the AGENTS.md in this folder and my listing notes, write the listing description plus a short social post. Describe the home and the area, not who should live there. Keep it under my MLS character limit: [your MLS limit]. If any of these are empty, carry on without them. Then offer to save the one I like in Listings.",
   cmaPrep:
-    "Here are the comps for a listing appointment, with owner names taken out. Give me five talking points for the seller in plain words, and the question they're most likely to ask about price, with how I might answer it.",
-  morningBrief:
-    "Read today's daily note and anything new in Inbox. Give me a short brief: what's on today, who I owe a follow-up, and one thing to prep.",
-  dailyNote:
-    "Start today's note in Daily notes. Here's my day: [your appointments and calls]. Add anyone I owe a call, and anything still open from my last note.",
+    "Here are the comps for a listing appointment, with owner names taken out. Using my CMA notes, Where my stuff lives and the My voice section of the AGENTS.md in this folder, give me five talking points for the seller in plain words. Say which comps carry the most weight and why, and what could move the price range up or down. Then give me the question they're most likely to ask about price, with how I might answer it. Use only the numbers in the comps. If any of my notes are empty, carry on without them. Offer to save this with my CMA notes.",
+  dailyBriefing:
+    "Be my chief of staff for today. Read the AGENTS.md in this folder, my notes, my calendar and my inbox. Then search the web for new listings in my market from the past day, our team's listings on caseylesher.com, and the top 3 local and top 3 national real estate news stories. Give me:\n1. My top 3 things to do today\n2. Who's waiting on a reply from me\n3. A quick prep note for each appointment\n4. New listings worth knowing about\n5. The news, one line each, with why it matters to my clients\nDraft any replies in my voice, and don't send anything. If something isn't connected or is empty, skip that part and tell me.",
   savePrompt:
-    "Save the prompt I just used in Scripts and templates, named [a short name], so I can ask for it by name next time.",
-  fixRule:
-    "You got this wrong: [what was off]. Add a rule to the AGENTS.md rulebook in this folder so it doesn't happen again, and show me the rule before you save it.",
-  privacyCheck:
-    "Scan my whole Second Brain for anything that shouldn't be here: client phone numbers, home addresses, ID, bank or loan details, signed contracts or passwords. List what you find and where. Don't change or delete anything until I tell you to.",
+    "Save the prompt I just used in Scripts and templates, named [a short name]. Then add that name to a \"My shortcuts\" list in the AGENTS.md in this folder, with one line on what it does, so I can just say \"run [name]\" next time.",
   weeklyReview:
-    "Weekly review: file everything in Inbox, tell me what's new this week, and suggest one rule to add to the AGENTS.md rulebook in this folder. Add it once I say OK.",
+    "Weekly review: look through my Drive and sent email from this past week. Tell me what's new, and note any of my best work in the right Second Brain folder. Update Where my stuff lives in the AGENTS.md in this folder with anything new. File anything in Inbox into the right Second Brain folder, and ask me if you're not sure where. Don't move or upload anything outside this folder. Then suggest one rule to add to the rulebook. Add it once I say OK.",
+  fixRule:
+    "You got this wrong: [what was off]. Fix it, then add a rule to the AGENTS.md rulebook in this folder so it doesn't happen again. If it's about how I sound, update My voice instead. If a rule already covers it, tighten that rule rather than adding a new one. Show me the change before you save it.",
+  fixRuleExample:
+    "You got this wrong: the follow-up was too long and too formal. Fix it, then add a rule to the AGENTS.md rulebook in this folder so it doesn't happen again. If it's about how I sound, update My voice instead. If a rule already covers it, tighten that rule rather than adding a new one. Show me the change before you save it.",
+  privacyCheck:
+    "Scan my whole Second Brain for anything that shouldn't be here: client phone numbers, home addresses, personal emails, ID, bank or loan details, signed contracts or passwords. List what kind of thing you found and which file it's in, but don't show the details themselves. Don't change or delete anything until I tell you to.",
+  voiceReview:
+    "Read my sent emails from the past 60 days and update the My voice section in the AGENTS.md in this folder. Leave out client names and details. Show me the changes before you save them.",
 } as const;
 
 export const lessons: Lesson[] = [
@@ -189,7 +193,7 @@ export const lessons: Lesson[] = [
     minutes: 30,
     free: false,
     intro:
-      "Now your AI gets to know you. It asks the questions, you mostly talk, and it writes everything up as an About me file it reads every time. Then you give it a rulebook so it works the same way every day.",
+      "Now your AI gets to know you. It asks the questions, you mostly talk, and it writes everything up as an About me file it reads every time. Then it fills in your rulebook and learns how you sound.",
     parts: [
       {
         title: "Talk, don't type",
@@ -202,7 +206,7 @@ export const lessons: Lesson[] = [
       {
         title: "Run the interview",
         blocks: [
-          { kind: "text", text: "Paste this in and answer one question at a time. It takes about 20 minutes." },
+          { kind: "text", text: "Paste this in and answer one question at a time. It's about 8 questions." },
           { kind: "prompt", label: "The interview", text: prompts.interview },
         ],
       },
@@ -216,16 +220,16 @@ export const lessons: Lesson[] = [
       {
         title: "Give everything a place",
         blocks: [
-          { kind: "text", text: "Your AI suggested a folder layout at the end of the interview. Compare it with this one and keep what fits you." },
+          { kind: "text", text: "At the end of the interview, your AI suggests changes to your folders. Say OK to the ones that fit you." },
           { kind: "list", items: ["About me", "Listings", "Scripts and templates", "Market notes", "Daily notes", "Inbox, where new files land"] },
         ],
       },
       {
-        title: "Write the rulebook",
+        title: "Fill in the rulebook",
         blocks: [
           {
             kind: "text",
-            text: "Your rulebook is the AGENTS.md file in your folder: how you name files, where things go, and what never goes in. Your AI reads it and updates it for you.",
+            text: "Your rulebook, the AGENTS.md file, is already in your starter folder: how you name files, where things go, and what never goes in. After the interview, have your AI fill in who you are.",
           },
           {
             kind: "apps",
@@ -234,10 +238,7 @@ export const lessons: Lesson[] = [
               chatgpt: "ChatGPT uses AGENTS.md. Start each new chat with: Read the AGENTS.md rulebook in this folder first.",
             },
           },
-          { kind: "text", text: "Using the starter folder? Your rulebook is already there. After the interview, have your AI fill in who you are." },
-          { kind: "prompt", label: "Fill in the starter rulebook", text: prompts.fillRulebook },
-          { kind: "text", text: "No rulebook yet? Have your AI write one." },
-          { kind: "prompt", label: "Make the rulebook", text: prompts.rulebook },
+          { kind: "prompt", label: "Fill in the rulebook", text: prompts.fillRulebook },
           { kind: "text", text: "Then add one rule of your own. You can add more any time, in plain words." },
           { kind: "prompt", label: "Add a rule", text: prompts.addRule },
         ],
@@ -245,11 +246,17 @@ export const lessons: Lesson[] = [
       {
         title: "Teach it your voice",
         blocks: [
+          { kind: "text", text: "Two ways to do it. Pick the one that fits." },
           {
             kind: "text",
-            text: "Pick 5 emails you sent that sound like you. Take out the client names, paste them into your Second Brain chat, and send this.",
+            text: "Gmail connected? Only connect once your team lead says OK. In ChatGPT, open Plugins and add Gmail and Google Drive, then send this from your Second Brain project.",
           },
-          { kind: "prompt", label: "Teach it your voice", text: prompts.voice },
+          { kind: "prompt", label: "Teach it your voice, Gmail connected", text: prompts.voiceConnected },
+          {
+            kind: "text",
+            text: "Not connected? Pick 5 emails you sent that sound like you. Copy the text of each one, no downloads needed, take out the client names, and paste them in under this.",
+          },
+          { kind: "prompt", label: "Teach it your voice, paste 5 emails", text: prompts.voice },
           { kind: "tip", text: "From now on, ask for a draft and it writes like you, not like a robot." },
         ],
       },
@@ -257,84 +264,104 @@ export const lessons: Lesson[] = [
     tasks: [
       "Run the interview",
       "Read and fix About me",
-      "Agree on a folder layout",
-      "Make your rulebook",
+      "Agree on your folders",
+      "Fill in your rulebook",
       "Add one rule of your own",
-      "Teach it your voice from 5 emails",
+      "Teach it your voice",
     ],
   },
   {
     step: 3,
-    title: "Feed it your business",
-    headline: "Five to ten files is plenty",
-    minutes: 25,
+    title: "Point it at your business",
+    headline: "Your best work, found for you",
+    minutes: 20,
     free: false,
     intro:
-      "Your AI knows who you are. Now give it real work to learn from: a handful of your best files, with client details taken out first. This is where it starts to sound like you.",
+      "Your best work already lives in your Google Drive and sent email. Instead of moving files around, your AI finds it, writes down what makes it work, and notes where it lives. The originals stay put, and client details stay out.",
     parts: [
       {
-        title: "Pick your files",
+        title: "Connect Gmail and Google Drive",
         blocks: [
           {
             kind: "list",
             items: [
-              "A recent listing description you liked",
-              "Your three best follow-up emails",
-              "Your buyer or listing consult script",
-              "A past CMA, with client names taken out",
-              "Your bio",
+              "Only connect once your team lead says OK.",
+              "In ChatGPT, open Plugins and add Gmail and Google Drive.",
+              "They work inside your Second Brain project, so stay in it.",
             ],
           },
-          { kind: "tip", text: "Start small. Five good files teach it more than fifty random ones." },
+          { kind: "tip", text: "Can't connect yet? Use Drag it in instead, at the end of this Step." },
         ],
       },
       {
-        title: "Check before you drop",
+        title: "Find your best work",
+        blocks: [
+          {
+            kind: "text",
+            text: "This is the quick version for today: the last 90 days, up to 2 of each. The full search is homework in Step 5.",
+          },
+          { kind: "prompt", label: "Find your best work", text: prompts.bestWork },
+          {
+            kind: "list",
+            items: [
+              "It shows you what it found, and you pick.",
+              "For each pick, it writes a short note in the right folder on what makes it work. The originals stay in Drive and Gmail.",
+              "It adds a Where my stuff lives section to your AGENTS.md, so every chat knows where to look.",
+            ],
+          },
+        ],
+      },
+      {
+        title: "Check before you say OK",
         blocks: [
           {
             kind: "split",
-            left: { title: "Good to add", items: ["Your own scripts and templates", "Public listing details", "Market notes and stats", "Notes with client names taken out"] },
-            right: { title: "Keep out", items: ["ID numbers, bank and loan details", "Signed contracts and disclosures", "Client phone numbers and home addresses", "Anything your brokerage says stays in the CRM"] },
+            left: { title: "Good in a note", items: ["What makes the work good", "Public listing details", "Market notes and stats", "Your own scripts and templates"] },
+            right: { title: "Keep out", items: ["Client names, phones and home addresses", "ID numbers, bank and loan details", "Signed contracts and disclosures", "Anything your brokerage says stays in the CRM"] },
           },
-          { kind: "text", text: "Not sure about a file? Ask your AI to check it before it saves anything." },
-          { kind: "prompt", label: "Check a file", text: prompts.cleanFile },
+          { kind: "text", text: "It shows you each note before it saves. If a client detail slipped in, tell it to take it out." },
         ],
       },
       {
-        title: "Drop and file",
+        title: "Read what it learned",
         blocks: [
-          { kind: "text", text: "Drag your files into Inbox, then let your AI sort them." },
-          { kind: "prompt", label: "Ask your AI", text: prompts.fileInbox },
-          { kind: "text", text: "Read the three things it learned. If one is off, tell it, and add a rule so it sticks." },
+          { kind: "text", text: "Read the three things it learned about how you work. If one is off, tell it, and add a rule so it sticks." },
+        ],
+      },
+      {
+        title: "Not connected? Drag it in instead",
+        blocks: [
+          { kind: "text", text: "Drag 5 to 10 of your best files into Inbox. Have your AI check them first, then file them." },
+          { kind: "prompt", label: "Check a file", text: prompts.cleanFile },
+          { kind: "prompt", label: "File your Inbox", text: prompts.fileInbox },
         ],
       },
     ],
     tasks: [
-      "Pick five to ten files",
-      "Take client details out",
-      "Drop them into Inbox",
-      "Have your AI file them",
+      "Connect Gmail and Google Drive, or drag files into Inbox",
+      "Pick your best work from what it found",
+      "Check each note before it saves",
       "Read the three things it learned",
     ],
   },
   {
     step: 4,
     title: "Put it to work",
-    headline: "Four jobs to hand off",
+    headline: "A follow-up and your Daily Briefing",
     minutes: 25,
     free: false,
     intro:
-      "Now your AI pays you back. Everyone starts with a follow-up that sounds like you. Then try listing copy, CMA talking points and a morning brief, and keep the ones that save you time.",
+      "Now your AI pays you back. In the room, everyone writes a follow-up that sounds like them, then gets their first Daily Briefing. Listing copy and CMA talking points are there for early finishers and homework.",
     parts: [
       {
-        title: "Your first follow-up",
+        title: "Job 01 · Your first follow-up",
         blocks: [
           {
             kind: "list",
             items: [
               "Think of one person you owe a check-in.",
-              "Describe them without their name. \"A buyer who closed about a year ago\" is plenty.",
-              "Ask for it in your voice, then edit one line so it's yours.",
+              "Describe them in a sentence, without their name.",
+              "Pick the version you like, and let it save it as a template.",
             ],
           },
           { kind: "prompt", label: "Write the follow-up", text: prompts.followUp },
@@ -342,14 +369,34 @@ export const lessons: Lesson[] = [
             kind: "tip",
             text: "Nothing gets sent from your AI. Copy the draft into your own email or CRM when you're happy with it, and add the name there.",
           },
+        ],
+      },
+      {
+        title: "Job 04 · Your Daily Briefing",
+        blocks: [
           {
             kind: "text",
-            text: "Doesn't sound like you yet? Drop two more of your real follow-up emails into Inbox, have your AI file them, and try again.",
+            text: "Your AI as chief of staff: your top 3 for today, who's waiting on you, prep for each appointment, new listings and the news, with replies drafted in your voice.",
+          },
+          { kind: "prompt", label: "Daily Briefing", text: prompts.dailyBriefing },
+          {
+            kind: "tip",
+            text: "It drafts but never sends. The listings come from public sites, so treat them as a quick scan, not the MLS.",
           },
         ],
       },
       {
-        title: "Listing copy",
+        title: "Keep what works",
+        blocks: [
+          {
+            kind: "text",
+            text: "Close this Step by saving Follow-up and Daily Briefing as shortcuts. Next time, just say \"run Daily Briefing\".",
+          },
+          { kind: "prompt", label: "Save it as a shortcut", text: prompts.savePrompt },
+        ],
+      },
+      {
+        title: "Early finishers · Job 02 Listing copy",
         blocks: [
           { kind: "text", text: "Give it your notes and photos, and it writes the description and a social post in your voice." },
           { kind: "prompt", label: "Write the listing copy", text: prompts.listingCopy },
@@ -360,49 +407,48 @@ export const lessons: Lesson[] = [
         ],
       },
       {
-        title: "CMA talking points",
-        blocks: [
-          { kind: "text", text: "Take owner names out of your comps first, then paste them in or drop the file into Inbox." },
-          { kind: "prompt", label: "Get talking points", text: prompts.cmaPrep },
-        ],
-      },
-      {
-        title: "Morning brief",
+        title: "Early finishers · Job 03 CMA talking points",
         blocks: [
           {
             kind: "text",
-            text: "Your brief reads your daily note, so start one each morning. Type or talk it in, in a minute.",
+            text: "Take owner names out of your comps first, then paste them in or attach the file. No comps handy? Practice with our sample sheet.",
           },
-          { kind: "prompt", label: "Start today's note", text: prompts.dailyNote },
-          { kind: "prompt", label: "Get your brief", text: prompts.morningBrief },
-        ],
-      },
-      {
-        title: "Keep what works",
-        blocks: [
-          { kind: "text", text: "When a prompt saves you time, save it, and next time just ask for it by name." },
-          { kind: "prompt", label: "Save a prompt", text: prompts.savePrompt },
+          {
+            kind: "download",
+            label: "Download the sample comp sheet",
+            href: "/samples/sample-comp-sheet.csv",
+            note: "Made-up homes and numbers, for practice only.",
+          },
+          { kind: "prompt", label: "Get talking points", text: prompts.cmaPrep },
         ],
       },
     ],
     tasks: [
-      "Draft your first follow-up",
-      "Edit one line so it sounds like you",
-      "Try the listing copy",
-      "Try the CMA talking points",
-      "Start a daily note and get your brief",
-      "Save the prompt you liked best",
+      "Draft a follow-up and save the one you pick",
+      "Run your first Daily Briefing",
+      "Save Follow-up and Daily Briefing as shortcuts",
+      "Early finishers: try the listing copy",
+      "Early finishers: try the CMA talking points",
     ],
   },
   {
     step: 5,
     title: "Keep it growing",
-    headline: "15 minutes on a Friday",
+    headline: "Every morning, and 15 minutes on a Friday",
     minutes: 15,
     free: false,
     intro:
-      "A second brain gets better the more it knows. Fifteen minutes a week keeps it filed, current and safe, and every fix you make sticks.",
+      "A second brain gets better the more it knows. A Daily Briefing each morning and 15 minutes on Friday keep it current and safe, and every fix you make sticks.",
     parts: [
+      {
+        title: "Every morning",
+        blocks: [
+          {
+            kind: "text",
+            text: "Try asking ChatGPT to run Daily Briefing every weekday at 7 AM. If it doesn't offer to schedule it, just open the project each morning and say: run Daily Briefing.",
+          },
+        ],
+      },
       {
         title: "Block the time",
         blocks: [
@@ -412,7 +458,10 @@ export const lessons: Lesson[] = [
       {
         title: "Run the weekly review",
         blocks: [
-          { kind: "text", text: "Drop the week's new files into Inbox, then let your AI do the rest." },
+          {
+            kind: "text",
+            text: "It looks through your Drive and sent email from the week, notes your best work, keeps Where my stuff lives current and tidies Inbox. Nothing moves outside your Second Brain folder.",
+          },
           { kind: "prompt", label: "Weekly review", text: prompts.weeklyReview },
         ],
       },
@@ -421,9 +470,11 @@ export const lessons: Lesson[] = [
         blocks: [
           {
             kind: "text",
-            text: "When your AI gets something wrong, don't just fix the draft. Add a rule, and it won't make the same mistake again.",
+            text: "Correct it once, not every time. One prompt fixes today's draft and updates your rulebook or My voice, so every draft after it comes out right. You see the change and say OK first.",
           },
-          { kind: "prompt", label: "Add a rule", text: prompts.fixRule },
+          { kind: "prompt", label: "Fix it once", text: prompts.fixRule },
+          { kind: "text", text: "Here it is filled in, so you can see how it reads:" },
+          { kind: "prompt", label: "Example", text: prompts.fixRuleExample },
         ],
       },
       {
@@ -436,6 +487,10 @@ export const lessons: Lesson[] = [
               "Keep the setting that asks before your AI changes files.",
               "Your brokerage's policy always wins. If it changes, add a rule.",
             ],
+          },
+          {
+            kind: "text",
+            text: "It tells you what kind of thing it found and which file it's in, without showing the details, so nothing private lands on your screen.",
           },
           { kind: "prompt", label: "Privacy check", text: prompts.privacyCheck },
         ],
@@ -450,35 +505,28 @@ export const lessons: Lesson[] = [
         ],
       },
       {
-        title: "Homework: your voice from 60 days of email",
+        title: "Homework: go deeper",
         blocks: [
           {
             kind: "text",
-            text: "Do this at home, and only after your team lead says it's OK to connect your work email and drives to ChatGPT.",
+            text: "Do these at home, once your team lead says it's OK to connect Gmail and Google Drive. Client details still stay out of your Second Brain files.",
           },
-          {
-            kind: "list",
-            items: [
-              "In ChatGPT, open Plugins and add your email and cloud drive, like Gmail and Google Drive.",
-              "Connecting doesn't change the one rule: client details still stay out of your Second Brain files.",
-              "Then open your Second Brain project and send the prompt below.",
-            ],
-          },
+          { kind: "text", text: "First, the full best-work search, with no 90-day limit." },
+          { kind: "prompt", label: "Full best-work search", text: prompts.bestWorkFull },
+          { kind: "text", text: "Then sharpen your voice from 60 days of sent email." },
           { kind: "prompt", label: "60-day voice review", text: prompts.voiceReview },
-          {
-            kind: "tip",
-            text: "If ChatGPT can't see your mail from inside the project, run the review in a regular chat, then paste the result into your project and ask it to update My voice in the AGENTS.md in this folder.",
-          },
+          { kind: "tip", text: "Didn't get to listing copy or CMA talking points? They're at the end of Step 4." },
         ],
       },
     ],
     tasks: [
+      "Ask it to run Daily Briefing every weekday morning",
       "Block 15 minutes on Fridays",
       "Run your first weekly review",
-      "Add a rule when it gets something wrong",
+      "Fix one thing once",
       "Run the privacy check",
       "Switch on Clear Signal",
-      "Homework: run the 60-day voice review",
+      "Homework: full best-work search and 60-day voice review",
     ],
   },
 ];
@@ -504,39 +552,41 @@ export const promptPack: PackGroup[] = [
     items: [
       { label: "The interview", text: prompts.interview },
       { label: "Fix a line in About me", text: prompts.fixAboutMe },
-      { label: "Fill in the starter rulebook", text: prompts.fillRulebook },
-      { label: "Make the rulebook from scratch", text: prompts.rulebook },
+      { label: "Fill in the rulebook", text: prompts.fillRulebook },
       { label: "Add a rule", text: prompts.addRule },
-      { label: "Teach it your voice", text: prompts.voice },
+      { label: "Teach it your voice, Gmail connected", text: prompts.voiceConnected },
+      { label: "Teach it your voice, paste 5 emails", text: prompts.voice },
     ],
   },
   {
     step: 3,
-    title: "Feed it your business",
+    title: "Point it at your business",
     items: [
-      { label: "Check a file before it goes in", text: prompts.cleanFile },
-      { label: "File your Inbox", text: prompts.fileInbox },
+      { label: "Find your best work", text: prompts.bestWork },
+      { label: "Not connected: check a file", text: prompts.cleanFile },
+      { label: "Not connected: file your Inbox", text: prompts.fileInbox },
     ],
   },
   {
     step: 4,
     title: "Put it to work",
     items: [
-      { label: "Follow-up", text: prompts.followUp },
-      { label: "Listing copy", text: prompts.listingCopy },
-      { label: "CMA talking points", text: prompts.cmaPrep },
-      { label: "Start today's note", text: prompts.dailyNote },
-      { label: "Morning brief", text: prompts.morningBrief },
-      { label: "Save a prompt", text: prompts.savePrompt },
+      { label: "Job 01 · Follow-up", text: prompts.followUp },
+      { label: "Job 04 · Daily Briefing", text: prompts.dailyBriefing },
+      { label: "Save it as a shortcut", text: prompts.savePrompt },
+      { label: "Job 02 · Listing copy", text: prompts.listingCopy },
+      { label: "Job 03 · CMA talking points", text: prompts.cmaPrep },
     ],
   },
   {
     step: 5,
     title: "Keep it growing",
     items: [
-      { label: "Friday review", text: prompts.weeklyReview },
-      { label: "Add a rule", text: prompts.fixRule },
+      { label: "Weekly review", text: prompts.weeklyReview },
+      { label: "Fix it once", text: prompts.fixRule },
+      { label: "Fix it once, filled in", text: prompts.fixRuleExample },
       { label: "Privacy check", text: prompts.privacyCheck },
+      { label: "Homework: full best-work search", text: prompts.bestWorkFull },
       { label: "Homework: 60-day voice review", text: prompts.voiceReview },
     ],
   },
