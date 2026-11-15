@@ -13,11 +13,12 @@ export const dynamic = "force-dynamic";
 
 // The workshop plan. Each block matches a Step on the site and a part of the deck.
 const plan = [
-  { time: "10:00", title: "Get in and get set up", step: null, what: "Sign in here and add your code" },
-  { time: "10:10", title: "Set up the house", step: 1, what: "One folder, one app, one rule" },
-  { time: "10:30", title: "Teach it who you are", step: 2, what: "Your AI interviews you" },
-  { time: "11:00", title: "Point it at your business", step: 3, what: "Your AI finds your best work" },
-  { time: "11:25", title: "Put it to work", step: 4, what: "A follow-up and your Daily Briefing" },
+  { time: "10:00", title: "Welcome, and AI in plain words", step: null, what: "Laptops can stay closed for this bit" },
+  { time: "10:20", title: "Get in and get set up", step: null, what: "Sign in here and add your code" },
+  { time: "10:30", title: "Set up the house", step: 1, what: "One folder, one app, one rule" },
+  { time: "10:45", title: "Teach it who you are", step: 2, what: "Your AI interviews you" },
+  { time: "11:20", title: "Point it at your business", step: 3, what: "Your AI finds your best work" },
+  { time: "11:40", title: "Put it to work", step: 4, what: "A follow-up and your Daily Briefing" },
   { time: "11:50", title: "Keep it growing", step: 5, what: "Every morning, and 15 minutes on Friday" },
 ];
 
