@@ -19,10 +19,14 @@ const stepsModules = [
   { n: "STEP 5", title: "Keep it growing", body: "A Daily Briefing every morning, a Friday review and staying safe" },
 ];
 
+// The SolCal case study results stay hidden until Tony and Debbie confirm real
+// numbers. Set to true to show them, and the preview banner.
+const showCaseStudy = false;
+
 export default function Home() {
   return (
     <>
-      {site.isPreview && (
+      {site.isPreview && showCaseStudy && (
         <div className="ribbon">
           <div className="in">
             <span>
@@ -144,7 +148,7 @@ export default function Home() {
           <div className="in">
             <div className="case-grid">
               <div className="case-copy rv">
-                <p className="eb">Case study · Real estate</p>
+                <p className="eb">{showCaseStudy ? "Case study · Real estate" : "Client story · Real estate"}</p>
                 <h2 className="h2">SolCal Properties runs on Signal-Edge</h2>
                 <p className="lede">
                   A Coachella Valley real estate team that uses the Signal-Edge platform for its whole operation, so
@@ -152,7 +156,13 @@ export default function Home() {
                 </p>
                 <div className="blk">
                   <span className="mono">The problem</span>
-                  <p>Placeholder: what was slow, manual or leaking before the platform, in SolCal&apos;s words.</p>
+                  <p>
+                    &ldquo;Before we brought in these AI workflows, we were checking multiple systems and chasing
+                    updates to understand what needed attention. Opportunities could sit too long between follow-ups,
+                    and keeping lead records, listing tasks, and team accountability current required a lot of manual
+                    work. We needed a clearer way to see what was happening, who owned the next step, and where the
+                    team needed support.&rdquo;
+                  </p>
                 </div>
                 <div className="blk">
                   <span className="mono">What we built</span>
@@ -168,6 +178,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="rv">
+                {showCaseStudy && (
                 <div className="metrics">
                   {[
                     ["00%", "Result one, with date range"],
@@ -181,10 +192,23 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-                <div className="quote">
-                  <p>Placeholder for a short quote from the SolCal team about what changed day to day.</p>
-                  <span className="who">Name, role · SolCal Properties</span>
-                </div>
+                )}
+                <figure className="quote">
+                  <blockquote>
+                    <p>
+                      &ldquo;Signal-Edge brought us into the 21st century. We have AI in every aspect of our business
+                      now. Nothing falls through the cracks: leads get followed up, transactions stay on track, and our
+                      team spends its time with clients instead of chasing details. It&apos;s incredible how fast a
+                      business changes when you use AI the right way. We&apos;ve been on this platform for two years,
+                      since before it was called Signal-Edge, and we literally couldn&apos;t run our business without
+                      it.&rdquo;
+                    </p>
+                  </blockquote>
+                  <figcaption>
+                    <span className="who">Debbie Toohey · SolCal Properties</span>
+                    <span className="disc">Debbie is Tony&apos;s wife and business partner.</span>
+                  </figcaption>
+                </figure>
               </div>
             </div>
           </div>
