@@ -22,16 +22,6 @@ const stepsModules = [
 export default function Home() {
   return (
     <>
-      {site.isPreview && (
-        <div className="ribbon">
-          <div className="in">
-            <span>
-              <b>Preview</b> · Case study numbers are placeholders
-            </span>
-          </div>
-        </div>
-      )}
-
       <Nav />
 
       <header className="hero" id="top">
@@ -144,16 +134,12 @@ export default function Home() {
           <div className="in">
             <div className="case-grid">
               <div className="case-copy rv">
-                <p className="eb">Case study · Real estate</p>
+                <p className="eb">Client story · Real estate</p>
                 <h2 className="h2">SolCal Properties runs on Signal-Edge</h2>
                 <p className="lede">
                   A Coachella Valley real estate team that uses the Signal-Edge platform for its whole operation, so
                   every recommendation we make has been tested in a live brokerage.
                 </p>
-                <div className="blk">
-                  <span className="mono">The problem</span>
-                  <p>Placeholder: what was slow, manual or leaking before the platform, in SolCal&apos;s words.</p>
-                </div>
                 <div className="blk">
                   <span className="mono">What we built</span>
                   <p>
@@ -168,23 +154,22 @@ export default function Home() {
                 </div>
               </div>
               <div className="rv">
-                <div className="metrics">
-                  {[
-                    ["00%", "Result one, with date range"],
-                    ["0.0×", "Result two, with date range"],
-                    ["00 hrs", "Result three, with date range"],
-                  ].map(([v, k]) => (
-                    <div className="metric" key={k}>
-                      <span className="ph-note">Placeholder</span>
-                      <span className="v ph">{v}</span>
-                      <span className="k">{k}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="quote">
-                  <p>Placeholder for a short quote from the SolCal team about what changed day to day.</p>
-                  <span className="who">Name, role · SolCal Properties</span>
-                </div>
+                <figure className="quote">
+                  <blockquote>
+                    <p>
+                      &ldquo;Signal-Edge brought us into the 21st century. We have AI in every aspect of our business
+                      now. Nothing falls through the cracks: leads get followed up, transactions stay on track, and our
+                      team spends its time with clients instead of chasing details. It&apos;s incredible how fast a
+                      business changes when you use AI the right way. We&apos;ve been on this platform for two years,
+                      since before it was called Signal-Edge, and we literally couldn&apos;t run our business without
+                      it.&rdquo;
+                    </p>
+                  </blockquote>
+                  <figcaption>
+                    <span className="who">Debbie Toohey · SolCal Properties</span>
+                    <span className="disc">Debbie is Tony&apos;s wife and business partner.</span>
+                  </figcaption>
+                </figure>
               </div>
             </div>
           </div>
