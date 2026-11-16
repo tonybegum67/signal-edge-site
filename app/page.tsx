@@ -152,7 +152,13 @@ export default function Home() {
                 </p>
                 <div className="blk">
                   <span className="mono">The problem</span>
-                  <p>Placeholder: what was slow, manual or leaking before the platform, in SolCal&apos;s words.</p>
+                  <p>
+                    &ldquo;Before we brought these workflows together, we were checking multiple systems and chasing
+                    updates to understand what needed attention. Opportunities could sit too long between follow-ups,
+                    and keeping lead records, listing tasks, and team accountability current required a lot of manual
+                    work. We needed a clearer way to see what was happening, who owned the next step, and where the
+                    team needed support.&rdquo;
+                  </p>
                 </div>
                 <div className="blk">
                   <span className="mono">What we built</span>
