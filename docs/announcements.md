@@ -41,6 +41,6 @@ Name it with 3 to 40 lowercase letters, digits and dashes, like `content/announc
 }
 ```
 
-`highlight`, `button` and `ps` are optional. The button's address must start with `https://`. Everything else is required. A broken file fails the build, so it can't stop a send halfway.
+`highlight`, `button`, `ps` and `testRound` are optional. Raise `testRound` (2, 3, ...) to get another test copy without changing the words. The button's address must start with `https://`. Everything else is required. A broken file fails the build, so it can't stop a send halfway.
 
 Tone: fun and approachable, not technical (see the brand voice guide). Keep it to one ask per email.

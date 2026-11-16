@@ -18,6 +18,8 @@ export type Announcement = {
   highlight?: { label: string; value: string }; // one fact to stand out, like the date
   button?: { text: string; href: string };
   ps?: string;
+  // Optional. Raise it (2, 3, ...) to get another test copy without changing the words.
+  testRound?: number;
 };
 
 const DIR = path.join(process.cwd(), "content", "announcements");
@@ -65,6 +67,10 @@ function parse(file: string, slug: string, raw: unknown): Announcement {
     button = { text: text(b, "text", "button.text"), href };
   }
 
+  const testRound = o.testRound;
+  if (testRound !== undefined && (!Number.isInteger(testRound) || (testRound as number) < 1 || (testRound as number) > 999))
+    fail(`"testRound" must be a whole number from 1 to 999`);
+
   return {
     slug,
     audience: audience as Audience,
@@ -76,6 +82,7 @@ function parse(file: string, slug: string, raw: unknown): Announcement {
     highlight,
     button,
     ps: o.ps === undefined ? undefined : text(o, "ps"),
+    ...(testRound === undefined ? {} : { testRound: testRound as number }),
   };
 }
 
