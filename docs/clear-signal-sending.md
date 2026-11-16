@@ -25,6 +25,10 @@ So an issue goes out in two merges:
 1. The issue pull request adds both files with `"audience": "test"`. Merging it publishes the page and sends Tony a branded test copy.
 2. Once the test looks right, a one-line pull request changes `"test"` to `"everyone"`. Merging that sends the issue to the list.
 
+To get another test copy without changing any words, add `"testRound": 2` to the email file (then 3, and so on) and merge. It only matters while `audience` is `"test"`.
+
+After every send run, the deploy log's "Send due Clear Signal emails" step shows the list size: `"list": {"subscribed": N, "bySource": {...}}`, where the sources are `newsletter_form` (the Clear Signal sign-up), `prep_form` (the session prep form's opt-in) and `account` (My account). Counts only, never addresses.
+
 Every send is written to `newsletter_sends` before the email goes, so a redeploy, a retry or a second merge never sends anyone the same issue twice. Someone who subscribes after an issue went out starts with the next issue, rather than getting an old one weeks later.
 
 ## The email file
