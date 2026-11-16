@@ -19,10 +19,14 @@ const stepsModules = [
   { n: "STEP 5", title: "Keep it growing", body: "A Daily Briefing every morning, a Friday review and staying safe" },
 ];
 
+// The SolCal case study results and before story stay hidden until Tony and
+// Debbie confirm real numbers. Set to true to show them, and the preview banner.
+const showCaseStudy = false;
+
 export default function Home() {
   return (
     <>
-      {site.isPreview && (
+      {site.isPreview && showCaseStudy && (
         <div className="ribbon">
           <div className="in">
             <span>
@@ -144,12 +148,13 @@ export default function Home() {
           <div className="in">
             <div className="case-grid">
               <div className="case-copy rv">
-                <p className="eb">Case study · Real estate</p>
+                <p className="eb">{showCaseStudy ? "Case study · Real estate" : "Client story · Real estate"}</p>
                 <h2 className="h2">SolCal Properties runs on Signal-Edge</h2>
                 <p className="lede">
                   A Coachella Valley real estate team that uses the Signal-Edge platform for its whole operation, so
                   every recommendation we make has been tested in a live brokerage.
                 </p>
+                {showCaseStudy && (
                 <div className="blk">
                   <span className="mono">The problem</span>
                   <p>
@@ -160,6 +165,7 @@ export default function Home() {
                     team needed support.&rdquo;
                   </p>
                 </div>
+                )}
                 <div className="blk">
                   <span className="mono">What we built</span>
                   <p>
@@ -174,6 +180,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="rv">
+                {showCaseStudy && (
                 <div className="metrics">
                   {[
                     ["00%", "Result one, with date range"],
@@ -187,6 +194,7 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
+                )}
                 <figure className="quote">
                   <blockquote>
                     <p>
