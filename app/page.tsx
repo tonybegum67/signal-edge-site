@@ -19,8 +19,8 @@ const stepsModules = [
   { n: "STEP 5", title: "Keep it growing", body: "A Daily Briefing every morning, a Friday review and staying safe" },
 ];
 
-// The SolCal case study results and before story stay hidden until Tony and
-// Debbie confirm real numbers. Set to true to show them, and the preview banner.
+// The SolCal case study results stay hidden until Tony and Debbie confirm real
+// numbers. Set to true to show them, and the preview banner.
 const showCaseStudy = false;
 
 export default function Home() {
@@ -154,18 +154,16 @@ export default function Home() {
                   A Coachella Valley real estate team that uses the Signal-Edge platform for its whole operation, so
                   every recommendation we make has been tested in a live brokerage.
                 </p>
-                {showCaseStudy && (
                 <div className="blk">
                   <span className="mono">The problem</span>
                   <p>
-                    &ldquo;Before we brought these workflows together, we were checking multiple systems and chasing
+                    &ldquo;Before we brought in these AI workflows, we were checking multiple systems and chasing
                     updates to understand what needed attention. Opportunities could sit too long between follow-ups,
                     and keeping lead records, listing tasks, and team accountability current required a lot of manual
                     work. We needed a clearer way to see what was happening, who owned the next step, and where the
                     team needed support.&rdquo;
                   </p>
                 </div>
-                )}
                 <div className="blk">
                   <span className="mono">What we built</span>
                   <p>
