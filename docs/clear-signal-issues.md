@@ -35,8 +35,9 @@ Each issue is one JSON file in `content/clear-signal/`, named by its number: `00
 | `promptNote` | One line under the prompt on what comes back |
 | `homework` | The exercise for the week |
 | `step` | The Signal-Edge Steps lesson to point to, 1 to 5. Step 1 is free, so the page says so. |
+| `secondBrain` | Optional: `{ "intro": "...", "prompt": "..." }`. The same prompt for readers with a Second Brain folder, shown under the main prompt in the email and on the page with its own Copy button. Every issue has one (Tony, Nov 19): it reads the AGENTS.md rulebook first, uses the folder, and saves the result or the prompt back into the folder. |
 
-Every field is required. A file with a missing field, a wrong number or a step that doesn't exist fails the build with a message naming the file, so a broken page never ships.
+Every field except `secondBrain` is required. A file with a missing field, a wrong number or a step that doesn't exist fails the build with a message naming the file, so a broken page never ships.
 
 Write it in the Live Signal voice: plain, friendly, no jargon, no em dashes. The prompt never asks for client names or private details.
 

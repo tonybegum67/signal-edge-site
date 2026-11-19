@@ -19,6 +19,8 @@ export type IssueEmail = {
   oneThing: { title: string; points: { label: string; text: string }[] };
   field: { question: string; answer: string };
   quickHits: { title: string; text: string }[];
+  // Optional. A short section above the P.S., like "Work with Tony".
+  offer?: { label: string; heading: string; text: string };
   ps: string;
   // Optional. Raise it (2, 3, ...) to get another test copy without changing the words.
   // Only matters while "audience" is "test".
@@ -60,6 +62,12 @@ function parse(file: string, raw: unknown): IssueEmail {
   if (testRound !== undefined && (!Number.isInteger(testRound) || (testRound as number) < 1 || (testRound as number) > 999))
     fail(`"testRound" must be a whole number from 1 to 999`);
 
+  let offer: IssueEmail["offer"];
+  if (o.offer !== undefined) {
+    const of = obj(o.offer, "offer");
+    offer = { label: text(of, "label", "offer.label"), heading: text(of, "heading", "offer.heading"), text: text(of, "text", "offer.text") };
+  }
+
   const one = obj(o.oneThing, "oneThing");
   const field = obj(o.field, "field");
   return {
@@ -80,6 +88,7 @@ function parse(file: string, raw: unknown): IssueEmail {
       const ho = obj(h, `quickHits[${i}]`);
       return { title: text(ho, "title", `quickHits[${i}].title`), text: text(ho, "text", `quickHits[${i}].text`) };
     }),
+    ...(offer ? { offer } : {}),
     ps: text(o, "ps"),
     ...(testRound === undefined ? {} : { testRound: testRound as number }),
     issue: issue as Issue,

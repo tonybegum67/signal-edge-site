@@ -1,24 +1,23 @@
 {
   "number": "001",
   "audience": "test",
-  "testRound": 2,
-  "subject": "Clear Signal 001: ChatGPT now works with your iPhone mail and calendar",
-  "preheader": "One change worth knowing, one prompt to try today, and four quick hits. Five minutes.",
+  "subject": "Clear Signal 001: Clients are asking ChatGPT who to hire",
+  "preheader": "Make sure it can find you. Plus one prompt to try today and four quick hits. Five minutes.",
   "hello": "AI can feel like a lot. Clear Signal keeps it simple: one change worth knowing, one prompt you can use today, and a few quick hits. Five minutes, then back to your clients.",
   "oneThing": {
-    "title": "ChatGPT now works with your iPhone mail and calendar",
+    "title": "Clients are asking ChatGPT who to hire",
     "points": [
       {
         "label": "What it is",
-        "text": "If your day runs on iCloud, you can now connect ChatGPT to your iCloud Mail and Calendar. It can find an email, draft a reply, and add or move appointments when you ask."
+        "text": "OpenAI now lets businesses claim a profile in ChatGPT, so when someone asks it for a local agent, advisor or office, your details come straight from you. It's a beta that started November 10."
       },
       {
         "label": "Try this",
-        "text": "Ask: \"What showings do I have Thursday, and which buyers haven't heard from me this week?\""
+        "text": "Ask ChatGPT what a client would ask: \"Who are good real estate agents in [your town]?\" If you're missing or something's off, that's your sign to claim your profile."
       },
       {
         "label": "The fine print",
-        "text": "You switch it on yourself, with a special app password from Apple. It can send email, so read every message before it goes. It sees iCloud mail only, not Gmail or Outlook."
+        "text": "In the US, local businesses can claim an existing listing. You'll confirm you own or run the business with a photo ID, and changes are reviewed before they show."
       }
     ]
   },
@@ -28,21 +27,26 @@
   },
   "quickHits": [
     {
-      "title": "Better flyers in Canva",
-      "text": "Canva's new image maker, Craft, plans the layout before it draws, so your headline lands where you want it. Label any edited listing photo."
+      "title": "AI help right in Chrome",
+      "text": "Click the Gemini button in Chrome's toolbar and it summarizes or answers questions about the page you're on. Great for a long HOA document or lender page."
     },
     {
-      "title": "Closing dates to your calendar",
-      "text": "Agenda Hero turns a pasted email, screenshot or PDF timeline into calendar events, and you check them before anything is added."
+      "title": "Google Maps finds the appointment",
+      "text": "In the US, Ask Maps can now look for beauty, pet care, auto and home repair openings and call local businesses for you, and it plans day-by-day trips. Handy for clients moving to a new town."
     },
     {
-      "title": "A lead tracker from your inbox",
-      "text": "The Neuron shared a Zapier recipe that pulls names, dates and next steps from labeled Gmail messages into a Google Sheet, then reminds you to follow up."
+      "title": "Spot mistakes in a bill",
+      "text": "Paste a phone or utility bill into ChatGPT or Claude and ask it to explain each charge, flag new or doubled fees, and write a short script for calling the company."
     },
     {
-      "title": "Watch for fake AI apps",
-      "text": "Knock-off ChatGPT and Claude desktop apps have been caught secretly running crypto-mining software. Download only from the company's own site or the official app store."
+      "title": "Keep your logins to yourself",
+      "text": "Don't give an AI helper your bank or airline password. Some big companies now block AI assistants from signing in for you, and a slip can cost real money."
     }
   ],
-  "ps": "Running a team? We run a hands-on Team AI Workshop for brokerages. Just reply \"workshop\"."
+  "offer": {
+    "label": "Work with Tony",
+    "heading": "Want AI working in your business?",
+    "text": "Not just in your inbox, but in your week. Book a free 20-minute call with Tony and we'll find where your week leaks time and the simplest fix. Teams can bring us in for a hands-on Team AI Workshop, from $3,500. Just reply \"call\"."
+  },
+  "ps": "Next issue: a prompt that turns a 40-page HOA packet or lease into a one-page summary, with the questions to ask before you sign."
 }

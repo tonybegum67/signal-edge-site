@@ -49,6 +49,14 @@ export default async function IssuePage({ params }: Props) {
           <CopyPrompt label="Prompt of the week" text={issue.prompt} />
           <p className="issue-note">{issue.promptNote}</p>
 
+          {issue.secondBrain && (
+            <section className="issue-block">
+              <p className="eb">Use it in your Second Brain</p>
+              <p>{issue.secondBrain.intro}</p>
+              <CopyPrompt label="Second Brain version" text={issue.secondBrain.prompt} />
+            </section>
+          )}
+
           <section className="panel issue-block">
             <p className="eb">Homework</p>
             <p>{issue.homework}</p>

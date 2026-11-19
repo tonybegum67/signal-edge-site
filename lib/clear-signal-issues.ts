@@ -11,6 +11,8 @@ export type Issue = {
   intro: string;
   prompt: string;
   promptNote: string; // what they'll get back
+  // Optional. The same prompt for readers with a Second Brain folder: how to run it in that project.
+  secondBrain?: { intro: string; prompt: string };
   homework: string;
   step: number; // the Signal-Edge Steps lesson the issue points to
 };
@@ -32,6 +34,18 @@ function parseIssue(file: string, raw: unknown): Issue {
   };
   const number = text("number");
   if (!NUMBER.test(number) || `${number}.json` !== file) fail(`"number" must be three digits and match the file name`);
+  let secondBrain: Issue["secondBrain"];
+  if (o.secondBrain !== undefined) {
+    const sb = o.secondBrain;
+    if (!sb || typeof sb !== "object" || Array.isArray(sb)) fail(`"secondBrain" must be an object`);
+    const so = sb as Record<string, unknown>;
+    const sbText = (key: string) => {
+      const v = so[key];
+      if (typeof v !== "string" || !v.trim()) fail(`"secondBrain.${key}" must be a non-empty string`);
+      return (v as string).trim();
+    };
+    secondBrain = { intro: sbText("intro"), prompt: sbText("prompt") };
+  }
   const step = o.step;
   if (!stepSummaries.some((s) => s.step === step)) fail(`"step" must be 1 to ${stepSummaries.length}`);
   return {
@@ -41,6 +55,7 @@ function parseIssue(file: string, raw: unknown): Issue {
     intro: text("intro"),
     prompt: text("prompt"),
     promptNote: text("promptNote"),
+    ...(secondBrain ? { secondBrain } : {}),
     homework: text("homework"),
     step: step as number,
   };

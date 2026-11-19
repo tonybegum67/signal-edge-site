@@ -49,7 +49,13 @@ export function clearSignalIssueEmail(m: IssueEmail, opts: { unsubscribeUrl: str
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 12px;"><tr>
             <td style="background:${c.midnight};border-radius:6px;padding:18px;font-family:${mono};font-size:14px;line-height:1.6;color:${c.titaniumHi};">${lines(issue.prompt)}</td>
           </tr></table>
-          ${para(e(issue.promptNote), "margin:0;")}`,
+          ${para(e(issue.promptNote), issue.secondBrain ? "" : "margin:0;")}` +
+            (issue.secondBrain
+              ? `<p style="margin:20px 0 6px;font-family:${body};font-size:17px;line-height:1.35;font-weight:700;color:${c.ink};">Use it in your Second Brain</p>${para(e(issue.secondBrain.intro))}
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 0;"><tr>
+            <td style="background:${c.midnight};border-radius:6px;padding:18px;font-family:${mono};font-size:14px;line-height:1.6;color:${c.titaniumHi};">${lines(issue.secondBrain.prompt)}</td>
+          </tr></table>`
+              : ""),
         )}
         ${section(
           `${label("From the field")}<h3 style="margin:0 0 6px;font-family:${body};font-size:17px;line-height:1.35;font-weight:700;color:${c.ink};">${e(m.field.question)}</h3>${para(e(m.field.answer), "margin:0;")}`,
@@ -66,6 +72,7 @@ export function clearSignalIssueEmail(m: IssueEmail, opts: { unsubscribeUrl: str
         ${section(
           `${label("This week's exercise")}${para(e(issue.homework))}${para(e(`It's on the site with a Copy button and a link into ${step}.`))}${button("Open this issue's exercise", exercise)}`,
         )}
+        ${m.offer ? section(`${label(m.offer.label)}${heading(m.offer.heading)}${para(e(m.offer.text), "margin:0;")}`) : ""}
         ${section(`${para(`<strong style="color:${c.ink};">P.S.</strong> ${e(m.ps)}`, "margin:0;")}`)}`;
 
   const html = marketingHtml({
@@ -98,6 +105,9 @@ export function clearSignalIssueEmail(m: IssueEmail, opts: { unsubscribeUrl: str
     "",
     issue.promptNote,
     "",
+    ...(issue.secondBrain
+      ? ["USE IT IN YOUR SECOND BRAIN", issue.secondBrain.intro, "", issue.secondBrain.prompt, ""]
+      : []),
     "FROM THE FIELD",
     m.field.question,
     m.field.answer,
@@ -109,6 +119,7 @@ export function clearSignalIssueEmail(m: IssueEmail, opts: { unsubscribeUrl: str
     issue.homework,
     `It's on the site with a Copy button and a link into ${step}: ${exercise}`,
     "",
+    ...(m.offer ? [m.offer.label.toUpperCase(), m.offer.heading, m.offer.text, ""] : []),
     `P.S. ${m.ps}`,
     "",
     ...marketingTextFooter(opts.unsubscribeUrl),
