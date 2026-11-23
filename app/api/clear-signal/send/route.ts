@@ -67,6 +67,28 @@ async function testRecipient(db: Admin): Promise<Recipient> {
   return { email: ownerAddress, token: (data?.unsubscribe_token as string) ?? null };
 }
 
+// How many people are on the list right now, and where they signed up. Shown in the deploy log
+// after every send run, so the list size is easy to check. Counts only, never addresses.
+async function listSize(db: Admin) {
+  const bySource: Record<string, number> = {};
+  let subscribed = 0;
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = await db
+      .from("newsletter_subscribers")
+      .select("source")
+      .is("unsubscribed_at", null)
+      .order("created_at")
+      .range(from, from + PAGE - 1);
+    if (error) return null;
+    for (const r of data) {
+      const source = (r.source as string | null) || "unknown";
+      bySource[source] = (bySource[source] ?? 0) + 1;
+      subscribed++;
+    }
+    if (data.length < PAGE) return { subscribed, bySource };
+  }
+}
+
 async function alreadySent(db: Admin, key: string) {
   const sent = new Set<string>();
   for (let from = 0; ; from += PAGE) {
@@ -175,5 +197,5 @@ export async function POST(request: NextRequest) {
   }
 
   const remaining = report.reduce((n, r) => n + r.remaining, 0);
-  return NextResponse.json({ remaining, report });
+  return NextResponse.json({ remaining, report, list: await listSize(db) });
 }

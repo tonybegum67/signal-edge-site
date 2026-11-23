@@ -20,6 +20,9 @@ export type IssueEmail = {
   field: { question: string; answer: string };
   quickHits: { title: string; text: string }[];
   ps: string;
+  // Optional. Raise it (2, 3, ...) to get another test copy without changing the words.
+  // Only matters while "audience" is "test".
+  testRound?: number;
   issue: Issue; // the matching page file
 };
 
@@ -53,6 +56,10 @@ function parse(file: string, raw: unknown): IssueEmail {
   const audience = o.audience;
   if (audience !== "test" && audience !== "everyone") fail(`"audience" must be "test" or "everyone"`);
 
+  const testRound = o.testRound;
+  if (testRound !== undefined && (!Number.isInteger(testRound) || (testRound as number) < 1 || (testRound as number) > 999))
+    fail(`"testRound" must be a whole number from 1 to 999`);
+
   const one = obj(o.oneThing, "oneThing");
   const field = obj(o.field, "field");
   return {
@@ -74,6 +81,7 @@ function parse(file: string, raw: unknown): IssueEmail {
       return { title: text(ho, "title", `quickHits[${i}].title`), text: text(ho, "text", `quickHits[${i}].text`) };
     }),
     ps: text(o, "ps"),
+    ...(testRound === undefined ? {} : { testRound: testRound as number }),
     issue: issue as Issue,
   };
 }
