@@ -9,6 +9,6 @@
     "intro": "Got a Second Brain from Signal-Edge Steps? Run this one inside your Second Brain project in the ChatGPT desktop app. Your AI checks your own notes for the same snag, then saves the fix and the prompt, so next time you just say \"run Friction fix\". Using Claude? Same prompt, in the Code tab with your Second Brain folder open.",
     "prompt": "Read the AGENTS.md rulebook in this folder first, then my About me notes and the last two weeks of Daily notes. If any are empty, carry on without them.\nHere's a part of my week that feels slow, confusing or keeps going wrong:\n[describe it]\n\nCheck my notes for other times this came up. Ask me up to three questions, then give me two or three fixes, simplest first. For each, say what you could take on using what's already in this folder, and what I should keep doing myself. Keep client names and details out.\nWhen I pick a fix, save it as today's note in Daily notes. Then save this prompt in Scripts and templates as \"Friction fix\" and add it to My shortcuts in the AGENTS.md, so I can say \"run Friction fix\" next time. Show me each change before you save it."
   },
-  "homework": "Run the prompt and hit reply on the Clear Signal email with the fix you picked. Tony reads every one.",
+  "homework": "Run the prompt, then hit reply and tell me which fix you picked.",
   "step": 1
 }

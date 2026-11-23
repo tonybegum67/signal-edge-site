@@ -50,7 +50,7 @@ export default async function IssuePage({ params }: Props) {
           <p className="issue-note">{issue.promptNote}</p>
 
           {issue.secondBrain && (
-            <section className="issue-block">
+            <section className="issue-block" id="second-brain">
               <p className="eb">Use it in your Second Brain</p>
               <p>{issue.secondBrain.intro}</p>
               <CopyPrompt label="Second Brain version" text={issue.secondBrain.prompt} />
@@ -64,11 +64,15 @@ export default async function IssuePage({ params }: Props) {
 
           <section className="panel issue-block">
             <p className="eb">Your next step</p>
-            <h2 className="issue-h">
-              Step {issue.step}: {stepLabel(issue.step)}
-            </h2>
+            {issue.secondBrain && (
+              <p>
+                <strong>Already built your Second Brain?</strong> Run{" "}
+                <a href="#second-brain">this week&apos;s Second Brain version</a> inside it.
+              </p>
+            )}
             <p>
-              Signal-Edge Steps walks you through building your own AI second brain, one short lesson at a time.
+              <strong>New here?</strong> Signal-Edge Steps walks you through building your own AI second brain, one
+              short lesson at a time. This week fits Step {issue.step}: {stepLabel(issue.step)}.
               {issue.step === 1 ? " Step 1 is free." : ""}
             </p>
             <p>

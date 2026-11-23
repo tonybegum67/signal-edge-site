@@ -70,7 +70,7 @@ export function clearSignalIssueEmail(m: IssueEmail, opts: { unsubscribeUrl: str
               .join(""),
         )}
         ${section(
-          `${label("This week's exercise")}${para(e(issue.homework))}${para(e(`It's on the site with a Copy button and a link into ${step}.`))}${button("Open this issue's exercise", exercise)}`,
+          `${label("This week's exercise")}${para(e(issue.homework))}${para(e(issue.secondBrain ? `It's on the site with a Copy button for each version. New here? The page links you to ${step}.` : `It's on the site with a Copy button and a link into ${step}.`))}${button("Open this issue's exercise", exercise)}`,
         )}
         ${m.offer ? section(`${label(m.offer.label)}${heading(m.offer.heading)}${para(e(m.offer.text), "margin:0;")}`) : ""}
         ${section(`${para(`<strong style="color:${c.ink};">P.S.</strong> ${e(m.ps)}`, "margin:0;")}`)}`;
@@ -117,7 +117,9 @@ export function clearSignalIssueEmail(m: IssueEmail, opts: { unsubscribeUrl: str
     "",
     "THIS WEEK'S EXERCISE",
     issue.homework,
-    `It's on the site with a Copy button and a link into ${step}: ${exercise}`,
+    issue.secondBrain
+      ? `It's on the site with a Copy button for each version. New here? The page links you to ${step}: ${exercise}`
+      : `It's on the site with a Copy button and a link into ${step}: ${exercise}`,
     "",
     ...(m.offer ? [m.offer.label.toUpperCase(), m.offer.heading, m.offer.text, ""] : []),
     `P.S. ${m.ps}`,
