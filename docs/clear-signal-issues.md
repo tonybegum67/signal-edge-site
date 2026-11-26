@@ -41,6 +41,8 @@ Every field except `secondBrain` is required. A file with a missing field, a wro
 
 Write it in the Live Signal voice: plain, friendly, no jargon, no em dashes. The prompt never asks for client names or private details.
 
+ChatGPT is the default (Tony, Nov 26: Casey Lesher's team all use ChatGPT). Every prompt, Second Brain version and how-to is written for ChatGPT and names ChatGPT, not "ChatGPT or Claude". Mention another tool only when the story is about that tool.
+
 ## How an issue goes out
 
 The page and the email go out together:
