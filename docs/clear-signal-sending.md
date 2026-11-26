@@ -54,7 +54,7 @@ Every send is written to `newsletter_sends` before the email goes, so a redeploy
 }
 ```
 
-`oneThing.points` takes 1 to 4 items and `quickHits` 1 to 6. Every field is required. A file with a missing field, or a number with no matching page file, fails the build with a message naming the file, so a broken issue never ships.
+`oneThing.points` takes 1 to 4 items and `quickHits` 1 to 6. An optional `"offer": { "label": "Work with Tony", "heading": "...", "text": "..." }` adds a short section above the P.S. Every other field is required. A file with a missing field, or a number with no matching page file, fails the build with a message naming the file, so a broken issue never ships.
 
 ## The unsubscribe link
 
